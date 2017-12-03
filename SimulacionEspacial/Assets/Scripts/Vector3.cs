@@ -17,6 +17,7 @@ namespace myClasses
         public Vector3() : this(0, 0, 0) { }
         public Vector3(float n) : this(n, n, n) { }
 
+        /* Això pot ser una mica liós....
         private static Vector3 up()
         {
             return new Vector3(0, 1, 0);
@@ -28,12 +29,12 @@ namespace myClasses
         private static Vector3 front()
         {
             return new Vector3(1, 0, 0);
-        }
+        }*/
 
         //Methods
         public float modulus()
         {
-            return (float)Math.Sqrt(x * x + y * y + z * z);
+            return (float)Math.Sqrt(x * x + y * y + z * z); //controlar els casos on és casi 0 o casi 1?
         }
         public void normalize()
         {
@@ -58,6 +59,11 @@ namespace myClasses
         {
             return new Vector3( (a.y*b.z-a.z*b.y), (a.z*b.x-a.x*b.z), (a.x*b.y-a.y*b.x) );
         }
+        public void printValues()
+        {
+            UnityEngine.MonoBehaviour.print("X: "+x+" Y: "+y+" Z: "+z);
+        }
+        //fer un clampWithRange?
 
         //Operators
         public static Vector3 operator +(Vector3 a, Vector3 b)

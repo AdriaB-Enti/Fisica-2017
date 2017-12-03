@@ -45,7 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Astronauta.cs" />
      <Compile Include="Assets\Scripts\Vector3.cs" />
+     <Compile Include="Assets\Scripts\propulsor.cs" />
      <Compile Include="Assets\Scripts\testing.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Programes/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
