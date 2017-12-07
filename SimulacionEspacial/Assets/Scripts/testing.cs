@@ -46,10 +46,10 @@ public class testing : UnityEngine.MonoBehaviour
             print("Cross (2) is alright");
         }
         prova.printValues();
-        
 
-        
-
+        //testing del Matrix4
+        Matrix4 mat = new Matrix4();
+        print(mat.matrix[0, 0]);
 
 
 

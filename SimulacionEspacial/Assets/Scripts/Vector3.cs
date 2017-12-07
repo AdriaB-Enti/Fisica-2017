@@ -63,6 +63,11 @@ namespace myClasses
         {
             UnityEngine.MonoBehaviour.print("X: "+x+" Y: "+y+" Z: "+z);
         }
+        //Per anar fent proves si necessitem un vector3 de Unity
+        public UnityEngine.Vector3 toUnityVector3()
+        {
+            return new UnityEngine.Vector3(x,y,z);
+        }
         //fer un clampWithRange?
 
         //Operators
