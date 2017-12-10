@@ -48,11 +48,19 @@ public class testing : UnityEngine.MonoBehaviour
         prova.printValues();
 
         //testing del Matrix4
+        Matrix3 mat3 = new Matrix3();
+        mat3.matrix = new float[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, -8, -9 } };
+        print(mat3.determinant() == -42 ? "Determinant correcte":"Determinant incorrecte");
+
+        
+
+        //testing del Matrix4
         Matrix4 mat = new Matrix4();
-        print(mat.matrix[0, 0]);
-
-
-
+        mat.matrix = new float[,] { { 1, 2, 3 ,4}, 
+                                    { 5, 6, 7, 8}, 
+                                    { 9, 10, 11, 12 }, 
+                                    { 13, 14, 15, 16} };
+        mat.getMat3From(2, 2).print();
     }
 
     // Update is called once per frame

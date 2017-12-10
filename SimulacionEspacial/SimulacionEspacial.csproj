@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Astronauta.cs" />
     <Compile Include="Assets\Scripts\IK_FABRIK2.cs" />
+    <Compile Include="Assets\Scripts\Matrix3.cs" />
     <Compile Include="Assets\Scripts\Matrix4.cs" />
     <Compile Include="Assets\Scripts\Vector3.cs" />
     <Compile Include="Assets\Scripts\propulsor.cs" />
