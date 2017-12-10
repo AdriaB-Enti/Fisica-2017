@@ -16,15 +16,27 @@ namespace myClasses
             matrix = new float[,] { { n, n, n, n }, { n, n, n, n }, { n, n, n, n }, { n, n, n, n } };
         }
 
-        //determinant
         public float determinant()
         {
-            Matrix3 mat1 = getMat3From(0,0);
-            return 0;
+            return  matrix[0, 0] * getMat3From(0, 0).determinant() -
+                    matrix[0, 1] * getMat3From(0, 1).determinant() +
+                    matrix[0, 2] * getMat3From(0, 2).determinant() -
+                    matrix[0, 3] * getMat3From(0, 3).determinant();
         }
+        //inverse
 
-        //si col o row són més grans que 3, donarà error
-        //
+        //isIdentity
+
+        //rotation
+
+        //transpose
+
+        //print
+
+        //operadors
+
+        //Retorna una matriu 3x3 sense la fila i la columna que li passem
+        //Si col o row són més grans que 3, donarà error
         public Matrix3 getMat3From(byte row, byte col)
         {
             Matrix3 mat3 = new Matrix3();
@@ -55,17 +67,6 @@ namespace myClasses
 
             return mat3;
         }
-        //inverse
-
-        //isIdentity
-
-        //rotation
-
-        //transpose
-
-        //print
-
-        //operadors
 
     }
 

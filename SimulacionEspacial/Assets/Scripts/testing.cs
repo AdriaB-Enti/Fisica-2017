@@ -50,17 +50,17 @@ public class testing : UnityEngine.MonoBehaviour
         //testing del Matrix4
         Matrix3 mat3 = new Matrix3();
         mat3.matrix = new float[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, -8, -9 } };
-        print(mat3.determinant() == -42 ? "Determinant correcte":"Determinant incorrecte");
+        print(mat3.determinant() == -42 ? "Determinant Mat3x3 correcte": "Determinant Mat3x3 incorrecte");
 
         
 
         //testing del Matrix4
         Matrix4 mat = new Matrix4();
         mat.matrix = new float[,] { { 1, 2, 3 ,4}, 
-                                    { 5, 6, 7, 8}, 
-                                    { 9, 10, 11, 12 }, 
-                                    { 13, 14, 15, 16} };
-        mat.getMat3From(2, 2).print();
+                                    { 5, 6, 7, -8}, 
+                                    { 9, 10, -11, 12 }, 
+                                    { 13, 14, -15, -16} };
+        print(mat.determinant() == -2432 ? "Determinant Mat4x4 correcte" : "Determinant Mat4x4 incorrecte");
     }
 
     // Update is called once per frame
