@@ -23,15 +23,46 @@ namespace myClasses
                     matrix[0, 2] * getMat3From(0, 2).determinant() -
                     matrix[0, 3] * getMat3From(0, 3).determinant();
         }
+
+        public bool isIdentity()
+        {
+            bool identity = true;
+            for (int r = 0; r < 4; r++)
+            {
+                for (int c = 0; c < 4; c++)
+                {
+                    if ((r == c && matrix[r, c] != 1) || (r !=c && matrix[r,c]!=0))
+                    {
+                        identity = false;
+                    }
+                }
+            }
+            return identity;
+        }
+
+        public void print()
+        {
+            string text = "";
+            for (int r = 0; r < 4; r++)
+            {
+                for (int c = 0; c < 4; c++)
+                {
+                    text += matrix[r, c];
+                    if (c < 3)
+                    {
+                        text += ", ";
+                    }
+                }
+                text += "\n";
+            }
+            UnityEngine.MonoBehaviour.print(text);
+        }
+
         //inverse
-
-        //isIdentity
-
+        
         //rotation
 
         //transpose
-
-        //print
 
         //operadors
 
@@ -50,7 +81,6 @@ namespace myClasses
                     if (r!= row && c != col)
                     {
                         mat3.matrix[nr, nc] = matrix[r,c];
-
                     }
                     if (c != col)
                     {

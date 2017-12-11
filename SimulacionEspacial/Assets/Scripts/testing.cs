@@ -61,6 +61,7 @@ public class testing : UnityEngine.MonoBehaviour
                                     { 9, 10, -11, 12 }, 
                                     { 13, 14, -15, -16} };
         print(mat.determinant() == -2432 ? "Determinant Mat4x4 correcte" : "Determinant Mat4x4 incorrecte");
+        mat.print();
     }
 
     // Update is called once per frame
