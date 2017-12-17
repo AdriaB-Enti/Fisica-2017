@@ -10,6 +10,7 @@ public class IK_FABRIK2 : MonoBehaviour
     //testing
     public Transform projection;
     public Transform plane, plane2;
+    public Transform[] planes;
 
     private Vector3[] copy;
     private float[] distances;
