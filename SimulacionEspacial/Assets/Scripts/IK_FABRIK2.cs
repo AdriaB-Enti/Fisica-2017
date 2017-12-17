@@ -129,7 +129,8 @@ public class IK_FABRIK2 : MonoBehaviour
                 repositionCopyNodes(i+1);
 
             }
-
+            //harcodegem el ultim joint pq no roti
+            //copy[copy.Length - 1] = copy[copy.Length - 2]+ copy[copy.Length - 2].;
 
             //---------------------ENDING TESTING CONSTRAINTS-------------------
 
