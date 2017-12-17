@@ -95,7 +95,7 @@ public class IK_FABRIK2 : MonoBehaviour
             }
 
             //---------------------TESTING CONSTRAINTS-------------------
-            //Projectem el punt del joint 1 al pla
+            //Projectem el punt del joint 1 al pla  -------- posar en un bucle o un metode?
             Vector3 vectorToPlane = -plane.up;                                  //vector com la normal del pla, en direcció al pla
             Vector3 pointInLine = copy[1] + vectorToPlane;
             float escalar = Vector3.Dot(plane.up.normalized, (copy[0] - copy[1])) /
@@ -108,17 +108,7 @@ public class IK_FABRIK2 : MonoBehaviour
                 copy[1] = projection.position;
                 Debug.Log("QUE");
             }
-            //recol·loquem la resta de nodes
-            for (int i = 2; i <= copy.Length - 1; i++)
-            {
-                Vector3 temp = (copy[i] - copy[i - 1]);
-                if(temp.magnitude > 0.000001f)
-                {
-                    temp = (copy[i] - copy[i - 1]).normalized;
-                    temp = temp * distances[i-1];
-                    copy[i] = temp + copy[i-1];
-                }
-            }
+            repositionCopyNodes(2); //recol·loquem la resta de nodes
 
 
             //Projectem el punt del joint 2 al pla
@@ -134,17 +124,8 @@ public class IK_FABRIK2 : MonoBehaviour
                 copy[2] = projection.position;
                 Debug.Log("QUE");
             }
-            //recol·loquem la resta de nodes                                    //----------------fer un mètode
-            for (int i = 3; i <= copy.Length - 1; i++)
-            {
-                Vector3 temp = (copy[i] - copy[i - 1]);
-                if (temp.magnitude > 0.000001f)
-                {
-                    temp = (copy[i] - copy[i - 1]).normalized;
-                    temp = temp * distances[i - 1];
-                    copy[i] = temp + copy[i - 1];
-                }
-            }
+            repositionCopyNodes(3);
+
             //---------------------ENDING TESTING CONSTRAINTS-------------------
 
 
@@ -179,5 +160,18 @@ public class IK_FABRIK2 : MonoBehaviour
             }
         }
     }
-
+    void repositionCopyNodes(int startNode)
+    {
+        //recol·loquem la resta de nodes (començant per el startNode)
+        for (int i = startNode; i <= copy.Length - 1; i++)
+        {
+            Vector3 temp = (copy[i] - copy[i - 1]);
+            if (temp.magnitude > 0.000001f)
+            {
+                temp = (copy[i] - copy[i - 1]).normalized;
+                temp = temp * distances[i - 1];
+                copy[i] = temp + copy[i - 1];
+            }
+        }
+    }
 }
