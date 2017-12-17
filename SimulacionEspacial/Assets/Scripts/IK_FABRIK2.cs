@@ -7,6 +7,9 @@ public class IK_FABRIK2 : MonoBehaviour
 {
     public Transform[] joints;
     public Transform target;
+    //testing
+    public Transform projection;
+    public Transform plane, plane2;
 
     private Vector3[] copy;
     private float[] distances;
@@ -91,11 +94,66 @@ public class IK_FABRIK2 : MonoBehaviour
                 }
             }
 
+            //---------------------TESTING CONSTRAINTS-------------------
+            //Projectem el punt del joint 1 al pla
+            Vector3 vectorToPlane = -plane.up;                                  //vector com la normal del pla, en direcció al pla
+            Vector3 pointInLine = copy[1] + vectorToPlane;
+            float escalar = Vector3.Dot(plane.up.normalized, (copy[0] - copy[1])) /
+                (Vector3.Dot(plane.up.normalized, (pointInLine - copy[1])));    //copy[0]->punt en el pla
+            Vector3 projectedPoint = copy[1] + escalar * vectorToPlane;         //sense tenir en compte les distancies
+            if(escalar != 0)
+            {
+                projection.position = copy[0] + (projectedPoint - copy[0]).normalized * distances[0];    //vector director pla * distancia que toqui
+                //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo...--------------------------
+                copy[1] = projection.position;
+                Debug.Log("QUE");
+            }
+            //recol·loquem la resta de nodes
+            for (int i = 2; i <= copy.Length - 1; i++)
+            {
+                Vector3 temp = (copy[i] - copy[i - 1]);
+                if(temp.magnitude > 0.000001f)
+                {
+                    temp = (copy[i] - copy[i - 1]).normalized;
+                    temp = temp * distances[i-1];
+                    copy[i] = temp + copy[i-1];
+                }
+            }
+
+
+            //Projectem el punt del joint 2 al pla
+            vectorToPlane = -plane2.up;                                          //vector com la normal del pla, en direcció al pla
+            pointInLine = copy[2] + vectorToPlane;
+            escalar = Vector3.Dot(plane2.up.normalized, (copy[1] - copy[2])) /
+                (Vector3.Dot(plane2.up.normalized, (pointInLine - copy[2])));    //copy[1]->punt en el pla
+            projectedPoint = copy[2] + escalar * vectorToPlane;                 //sense tenir en compte les distancies
+            if (escalar != 0)
+            {
+                projection.position = copy[1] + (projectedPoint - copy[1]).normalized * distances[1];    //vector director pla * distancia que toqui
+                //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo...--------------------------
+                copy[2] = projection.position;
+                Debug.Log("QUE");
+            }
+            //recol·loquem la resta de nodes                                    //----------------fer un mètode
+            for (int i = 3; i <= copy.Length - 1; i++)
+            {
+                Vector3 temp = (copy[i] - copy[i - 1]);
+                if (temp.magnitude > 0.000001f)
+                {
+                    temp = (copy[i] - copy[i - 1]).normalized;
+                    temp = temp * distances[i - 1];
+                    copy[i] = temp + copy[i - 1];
+                }
+            }
+            //---------------------ENDING TESTING CONSTRAINTS-------------------
+
+
+
             // Update original joint rotations
             for (int i = 0; i <= joints.Length - 2; i++)
             {
+                
                 //TODO 4.
-
                 //without rotations
                 //joints[i].position = copy[i];
 
