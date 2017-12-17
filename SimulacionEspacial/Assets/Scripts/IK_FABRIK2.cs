@@ -111,21 +111,25 @@ public class IK_FABRIK2 : MonoBehaviour
             }
             repositionCopyNodes(2); //recol·loquem la resta de nodes
 
-
-            //Projectem el punt del joint 2 al pla
-            vectorToPlane = -plane2.up;                                          //vector com la normal del pla, en direcció al pla
-            pointInLine = copy[2] + vectorToPlane;
-            escalar = Vector3.Dot(plane2.up.normalized, (copy[1] - copy[2])) /
-                (Vector3.Dot(plane2.up.normalized, (pointInLine - copy[2])));    //copy[1]->punt en el pla
-            projectedPoint = copy[2] + escalar * vectorToPlane;                 //sense tenir en compte les distancies
-            if (escalar != 0)
+            for (int i = 2; i <= 4; i++)     //joints que necessiten constraints
             {
-                projection.position = copy[1] + (projectedPoint - copy[1]).normalized * distances[1];    //vector director pla * distancia que toqui
-                //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo...--------------------------
-                copy[2] = projection.position;
-                Debug.Log("QUE");
+                //Projectem el punt del joint 2 al pla
+                vectorToPlane = -planes[i-1].up;                                          //vector com la normal del pla, en direcció al pla
+                pointInLine = copy[i] + vectorToPlane;
+                escalar = Vector3.Dot(planes[i-1].up.normalized, (copy[i-1] - copy[i])) /
+                    (Vector3.Dot(planes[i-1].up.normalized, (pointInLine - copy[i])));    //copy[1]->punt en el pla
+                projectedPoint = copy[i] + escalar * vectorToPlane;                 //sense tenir en compte les distancies
+                if (escalar != 0)
+                {
+                    projection.position = copy[i-1] + (projectedPoint - copy[i-1]).normalized * distances[i-1];    //vector director pla * distancia que toqui
+                    //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo...--------------------------
+                    copy[i] = projection.position;
+                    Debug.Log("QUE");
+                }
+                repositionCopyNodes(i+1);
+
             }
-            repositionCopyNodes(3);
+
 
             //---------------------ENDING TESTING CONSTRAINTS-------------------
 
