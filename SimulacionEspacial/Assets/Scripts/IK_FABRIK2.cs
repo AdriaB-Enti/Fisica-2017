@@ -97,7 +97,7 @@ public class IK_FABRIK2 : MonoBehaviour
 
             //---------------------TESTING CONSTRAINTS-------------------
             //Projectem el punt del joint 1 al pla  -------- posar en un bucle o un metode?
-            Vector3 vectorToPlane = -plane.up;                                  //vector com la normal del pla, en direcció al pla
+            /*Vector3 vectorToPlane = -plane.up;                                  //vector com la normal del pla, en direcció al pla
             Vector3 pointInLine = copy[1] + vectorToPlane;
             float escalar = Vector3.Dot(plane.up.normalized, (copy[0] - copy[1])) /
                 (Vector3.Dot(plane.up.normalized, (pointInLine - copy[1])));    //copy[0]->punt en el pla
@@ -109,9 +109,14 @@ public class IK_FABRIK2 : MonoBehaviour
                 copy[1] = projection.position;
                 Debug.Log("QUE");
             }
-            repositionCopyNodes(2); //recol·loquem la resta de nodes
+            repositionCopyNodes(2); //recol·loquem la resta de nodes*/
 
-            for (int i = 2; i <= 4; i++)     //joints que necessiten constraints
+            Vector3 vectorToPlane;
+            Vector3 pointInLine;
+            float escalar;
+            Vector3 projectedPoint;
+
+            for (int i = 1; i <= 3; i++)     //joints que necessiten constraints
             {
                 //Projectem el punt del joint 2 al pla
                 vectorToPlane = -planes[i-1].up;                                          //vector com la normal del pla, en direcció al pla
