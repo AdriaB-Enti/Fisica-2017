@@ -54,7 +54,7 @@ public class testing : UnityEngine.MonoBehaviour
 
         
 
-        //testing del Matrix4
+        //Testing del Matrix4
         Matrix4 mat = new Matrix4();
         mat.matrix = new float[,] { { 1, 2, 3 ,4}, 
                                     { 5, 6, 7, -8}, 
@@ -62,6 +62,13 @@ public class testing : UnityEngine.MonoBehaviour
                                     { 13, 14, -15, -16} };
         print(mat.determinant() == -2432 ? "Determinant Mat4x4 correcte" : "Determinant Mat4x4 incorrecte");
         mat.print();
+
+        //Testing de MyQuaternion
+        MyQuaternion quaternion1 = new MyQuaternion(1, 2, 3, 4);
+        UnityEngine.Quaternion unityQuat = new UnityEngine.Quaternion(1, 2, 3, 4);
+        
+
+
     }
 
     // Update is called once per frame
