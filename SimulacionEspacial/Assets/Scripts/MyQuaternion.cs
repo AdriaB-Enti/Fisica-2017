@@ -6,35 +6,35 @@ namespace myClasses
 
     public class MyQuaternion{
 
-        public float w, x, y, z;
+        public float x, y, z, w;
 
-        public MyQuaternion(float w1,float x1,float y1,float z1)
+        public MyQuaternion(float x1,float y1,float z1,float w1)
         {
-            w = w1;
             x = x1;
             y = y1;
             z = z1;
+            w = w1;
         }
 
 
-        MyQuaternion Invert(MyQuaternion q)
+        public MyQuaternion Invert(MyQuaternion q)
         {
-            float sum = q.w*q.w + q.x*q.x + q.y*q.y + q.z*q.z;
-            MyQuaternion q2 = new MyQuaternion(q.w/sum, -q.x/sum, -q.y/sum, -q.z/sum);
+            float sum = q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
+            MyQuaternion q2 = new MyQuaternion(-q.x/sum, -q.y/sum, -q.z/sum, q.w / sum);
             return q2;
         }
         
-        static MyQuaternion Multiply(MyQuaternion q1, MyQuaternion q2)
+        public static MyQuaternion Multiply(MyQuaternion q1, MyQuaternion q2)
         {
-            MyQuaternion result = new MyQuaternion(q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z,
-                                                   q1.w * q2.x + q1.x * q2.w - q1.y * q2.z + q1.z * q2.y,
-                                                   q1.w * q2.y + q1.x * q2.y + q1.y * q2.w - q1.z * q2.x,
-                                                   q1.w * q2.z - q1.x * q2.y + q1.y * q2.x + q1.z * q2.w
+            MyQuaternion result = new MyQuaternion(q1.w * q2.x + q1.x * q2.w - q1.y * q2.z + q1.z * q2.y,
+                                                   q1.w * q2.y + q1.x * q2.z + q1.y * q2.w - q1.z * q2.x,
+                                                   q1.w * q2.z - q1.x * q2.y + q1.y * q2.x + q1.z * q2.w,
+                                                   q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
                                                    );
             return result;     
         }
 
-        Vector3 ConvertToAxisAngle(MyQuaternion q,Vector3 axis)
+        public Vector3 ConvertToAxisAngle(MyQuaternion q,Vector3 axis)
         {
             float angle = 2 * UnityEngine.Mathf.Acos(q.w);
 
@@ -60,8 +60,8 @@ namespace myClasses
         public MyQuaternion Normalize()
         {
             float magnitud = this.Length();
-            MyQuaternion result1 = new MyQuaternion(this.w/magnitud, this.x/magnitud,
-                this.y/magnitud, this.z/magnitud);
+            MyQuaternion result1 = new MyQuaternion(this.x/magnitud, this.y/magnitud, 
+                this.z/magnitud, this.w / magnitud);
 
             return result1;
         }
@@ -77,7 +77,7 @@ namespace myClasses
             UnityEngine.MonoBehaviour.print("X: " + x + " Y: " + y + " Z: " + z + " W: " + w);
         }
 
-        public static bool operator ==(MyQuaternion a, MyQuaternion b)
+        public static bool operator ==(MyQuaternion a, MyQuaternion b)  //seria més correcte posar-ho en un equals...
         {
             return a.x == b.x && a.y == b.y && a.z == b.z && a.w == b.w;
         }

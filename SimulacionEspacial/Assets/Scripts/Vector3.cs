@@ -88,7 +88,7 @@ namespace myClasses
             return new Vector3(a.x / b, a.y / b, a.z / b);
         }
 
-        public static bool operator ==(Vector3 a, Vector3 b)
+        public static bool operator ==(Vector3 a, Vector3 b)    //TODO: potser seria més correcte fer un .Equals()...
         {
             return a.x == b.x && a.y == b.y && a.z == b.z;      //han de ser tots iguals
         }
