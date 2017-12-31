@@ -66,13 +66,13 @@ public class testing : UnityEngine.MonoBehaviour
         //Testing de MyQuaternion
         MyQuaternion quaternion1 = new MyQuaternion(5,8,1,3);
         MyQuaternion quaternion2 = new MyQuaternion(6,6,1,1);
-        MyQuaternion quatResult = MyQuaternion.Multiply(quaternion1, quaternion2);
+        MyQuaternion quatResult = quaternion1*quaternion2;
         UnityEngine.Quaternion unityQuat = new UnityEngine.Quaternion(5, 8, 1, 3);
         UnityEngine.Quaternion unityQuat2 = new UnityEngine.Quaternion(6, 6, 1, 1);
         UnityEngine.Quaternion unityResult = unityQuat2 * unityQuat;
         print(quatResult.toUnityQuat().Equals(unityResult) ? "MyQuaternion product correcte" : "MyQuaternion product incorrecte");
-        print("X: " + quatResult.x + " Y: " + quatResult.y + " Z: " + quatResult.z + " W: " + quatResult.w);
-        print("X: " + unityResult.x + " Y: " + unityResult.y + " Z: " + unityResult.z + " W: " + unityResult.w);
+        //print("X: " + quatResult.x + " Y: " + quatResult.y + " Z: " + quatResult.z + " W: " + quatResult.w);
+        //print("X: " + unityResult.x + " Y: " + unityResult.y + " Z: " + unityResult.z + " W: " + unityResult.w);
 
     }
 

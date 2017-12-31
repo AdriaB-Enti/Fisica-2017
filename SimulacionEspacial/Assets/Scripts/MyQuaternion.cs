@@ -16,23 +16,13 @@ namespace myClasses
             w = w1;
         }
 
-
+        //Inversa = quaternió normalitzat i trasposat
         public MyQuaternion Invert(MyQuaternion q)
         {
             float sum = q.x*q.x + q.y*q.y + q.z*q.z + q.w*q.w;
-            MyQuaternion q2 = new MyQuaternion(-q.x/sum, -q.y/sum, -q.z/sum, q.w / sum);
-            return q2;
+            return new MyQuaternion(-q.x/sum, -q.y/sum, -q.z/sum, q.w / sum);
         }
         
-        public static MyQuaternion Multiply(MyQuaternion q1, MyQuaternion q2)
-        {
-            MyQuaternion result = new MyQuaternion(q1.w * q2.x + q1.x * q2.w - q1.y * q2.z + q1.z * q2.y,
-                                                   q1.w * q2.y + q1.x * q2.z + q1.y * q2.w - q1.z * q2.x,
-                                                   q1.w * q2.z - q1.x * q2.y + q1.y * q2.x + q1.z * q2.w,
-                                                   q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
-                                                   );
-            return result;     
-        }
 
         public Vector3 ConvertToAxisAngle(MyQuaternion q,Vector3 axis)
         {
@@ -45,11 +35,6 @@ namespace myClasses
             return axis;
 
         }
-
-        //MyQuaternion setQuaternion(MyQuaternion q)
-        //{
-
-        //}
 
         public float Length()
         {
@@ -66,6 +51,12 @@ namespace myClasses
             return result1;
         }
 
+        //Retorna q* (o lo que és el mateix, el quaternió trasposat)
+        public MyQuaternion conjugate()
+        {
+            return new MyQuaternion(-x,-y,-z,w);
+        }
+
         //retorna un Quaternion de unity amb els mateixos valors - ideal per fer proves
         public UnityEngine.Quaternion toUnityQuat()
         {
@@ -75,6 +66,22 @@ namespace myClasses
         public void printValues()
         {
             UnityEngine.MonoBehaviour.print("X: " + x + " Y: " + y + " Z: " + z + " W: " + w);
+        }
+
+        //Retorna el quaternió identitat
+        public static MyQuaternion QuatIdentity()
+        {
+            return new MyQuaternion(0,0,0,1);
+        }
+
+        //Operators
+        public static MyQuaternion operator *(MyQuaternion q1, MyQuaternion q2)
+        {
+            return new MyQuaternion(q1.w * q2.x + q1.x * q2.w - q1.y * q2.z + q1.z * q2.y,
+                                                   q1.w * q2.y + q1.x * q2.z + q1.y * q2.w - q1.z * q2.x,
+                                                   q1.w * q2.z - q1.x * q2.y + q1.y * q2.x + q1.z * q2.w,
+                                                   q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
+                                                   );
         }
 
         public static bool operator ==(MyQuaternion a, MyQuaternion b)  //seria més correcte posar-ho en un equals...
