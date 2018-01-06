@@ -9,8 +9,10 @@ public class FabrikIK : MonoBehaviour
     public Transform target;
     //testing
     public Transform projection;
+    public Transform anotherProjection;
     //public Transform plane, plane2;
     public Transform[] planes;
+    public Quaternion[] planCopyRotations;
 
     private Vector3[] copy;
     private float[] distances;
@@ -25,6 +27,8 @@ public class FabrikIK : MonoBehaviour
     {
         distances = new float[joints.Length - 1];
         copy = new Vector3[joints.Length];
+        planCopyRotations = new Quaternion[planes.Length];
+        //-----------------------------------------------guardar les rotacions originals dels plans? (planeCopyRotations)-----------------
     }
 
     void Update()
@@ -38,6 +42,12 @@ public class FabrikIK : MonoBehaviour
             {
                 distances[i] = (joints[i + 1].position - joints[i].position).magnitude;
             }
+        }
+
+        //copy plane rotations
+        for (int i = 0; i < planes.Length; i++)
+        {
+            planCopyRotations[i] = planes[i].rotation;
         }
 
         done = (Vector3.Distance(target.position, joints[joints.Length - 1].position) < threshold_distance);
@@ -55,7 +65,6 @@ public class FabrikIK : MonoBehaviour
                     float ratio = distances[i] / dist;
 
                     copy[i + 1] = (1 - ratio) * copy[i] + ratio * target.position;
-
                 }
             }
             else
@@ -66,7 +75,7 @@ public class FabrikIK : MonoBehaviour
                 {
                     counter++;
 
-                    // STAGE 1: FORWARD REACHING
+                    // 1- FORWARD REACHING
                     copy[copy.Length - 1] = target.position;
                     for (int i = copy.Length - 1; i > 0; i--)
                     {
@@ -75,7 +84,7 @@ public class FabrikIK : MonoBehaviour
                         copy[i - 1] = temp + copy[i];
                     }
 
-                    // STAGE 2: BACKWARD REACHING
+                    // 2- BACKWARD REACHING
                     copy[0] = joints[0].position;
                     for (int i = 0; i < copy.Length - 2; i++)
                     {
@@ -87,8 +96,10 @@ public class FabrikIK : MonoBehaviour
                 }
             }
 
-            //---------------------CONSTRAINTS-------------------
+            //actualitzar rotacions plans
+            updatePlaneRotations();
 
+            //---------------------CONSTRAINTS-------------------
             Vector3 vectorToPlane;
             Vector3 pointInLine;
             float escalar;
@@ -105,44 +116,102 @@ public class FabrikIK : MonoBehaviour
                 if (escalar != 0)
                 {
                     projection.position = copy[i-1] + (projectedPoint - copy[i-1]).normalized * distances[i-1];    //vector director en el pla * distancia que toqui
-                    //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo
+                    //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo?
                     copy[i] = projection.position;
                 }
                 repositionCopyNodes(i+1);
-
             }
             //---------------------END CONSTRAINTS-------------------
 
+            updateJointRotations();
 
-
-            // Update original joint rotations
-            for (int i = 0; i <= joints.Length - 2; i++)
-            {
-                //with rotations:
-                Vector3 a, b;
-                a = joints[i + 1].position - joints[i].position;
-                b = copy[i + 1] - copy[i];
-                Vector3 axis = Vector3.Cross(a, b).normalized;
-
-                float cosa = Vector3.Dot(a, b) / (a.magnitude * b.magnitude);
-                float sina = Vector3.Cross(a.normalized, b.normalized).magnitude;
-
-                float alpha = Mathf.Atan2(sina, cosa);
-
-                //float alpha = Mathf.Acos(Vector3.Dot(a, b) / (a.magnitude * b.magnitude));
-
-
-
-                Quaternion q = new Quaternion(axis.x * Mathf.Sin(alpha / 2), axis.y * Mathf.Sin(alpha / 2), axis.z * Mathf.Sin(alpha / 2), Mathf.Cos(alpha / 2));
-                joints[i].position = copy[i];
-                joints[i].rotation = q * joints[i].rotation;
-
-            }
         }
     }
+
+    //actualitza la rotació del pla segons les posicions dels copy
+    void updatePlaneRotations()
+    {
+        //plane 1
+        //buscar la projecció dels joint 1 i el copy 1 al pla 
+
+        /*Vector3 vectorToPlane = -Vector3.up;    //només funcionarà si la nau no està girada
+        Vector3 pointInLine = copy[1] + vectorToPlane;
+        float escalar = Vector3.Dot(Vector3.up, (copy[0] - copy[1])) /
+                    (Vector3.Dot(Vector3.up, (pointInLine - copy[1])));
+        Vector3 projectedPoint = copy[1] + escalar * vectorToPlane;
+        Vector3 projection = copy[1];
+        if (escalar != 0)
+        {
+            projection = copy[0] + (projectedPoint - copy[0]).normalized * distances[0];
+        }*/
+        Vector3 jointProjection = getProjectionToPlane(Vector3.up, joints[0].position, joints[1].position); //VIGILAR SI FAIG SERVIR EL COPY O EL JOINT (EL COPY DESPRES S'ACABA MODIFICANT)
+        Vector3 copyProjection = getProjectionToPlane(Vector3.up, joints[0].position, copy[1]); //VIGILAR SI FAIG SERVIR EL COPY O EL JOINT (EL COPY DESPRES S'ACABA MODIFICANT)
+
+        anotherProjection.position = copyProjection;
+
+        //buscar la rotació en l'eix Y entre copy[0] i copy[1]
+        Quaternion planeRotation = getRotationFrom(joints[0].position, joints[0].position, jointProjection, copyProjection);
+
+        //guardar la rotació 
+        //planCopyRotations[i] = 
+        planes[0].rotation = planeRotation * planes[0].rotation;
+    }
+
+    //Rotació entre dos punts amb un punt d'origen donat
+    Quaternion getRotationFrom(Vector3 originA, Vector3 originB, Vector3 pointA, Vector3 pointB)  //afegeixo un altre origen?
+    {
+        //originA -> joints[i]
+        //originB -> copy[1]
+        //pointA  -> joints[i+1]
+
+        Vector3 a = pointA - originA;
+        Vector3 b = pointB - originB;
+        Vector3 axis = Vector3.Cross(a, b).normalized;
+
+        float cosa = Vector3.Dot(a, b) / (a.magnitude * b.magnitude);
+        float sina = Vector3.Cross(a.normalized, b.normalized).magnitude;
+        float alpha = Mathf.Atan2(sina, cosa);
+
+        return new Quaternion(axis.x * Mathf.Sin(alpha / 2), axis.y * Mathf.Sin(alpha / 2), axis.z * Mathf.Sin(alpha / 2), Mathf.Cos(alpha / 2));
+    }
+
+
+    //Projeccio del punt al pla (retorna el mateix punt si ja estava al pla)
+    Vector3 getProjectionToPlane(Vector3 planeNormal, Vector3 pointInPlane, Vector3 pointToProject)
+    {
+        Vector3 pointInLine = pointToProject - planeNormal;
+        float escalar = Vector3.Dot(Vector3.up.normalized, (pointInPlane - pointToProject)) /
+                    (Vector3.Dot(Vector3.up.normalized, (pointInLine - pointToProject)));
+        return (pointToProject + escalar * (-planeNormal));
+    }
+
+    // Update all original joint rotations
+    void updateJointRotations()
+    {
+        for (int i = 0; i <= joints.Length - 2; i++)
+        {
+            Vector3 a, b;
+            a = joints[i + 1].position - joints[i].position;
+            b = copy[i + 1] - copy[i];
+            Vector3 axis = Vector3.Cross(a, b).normalized;
+
+            float cosa = Vector3.Dot(a, b) / (a.magnitude * b.magnitude);
+            float sina = Vector3.Cross(a.normalized, b.normalized).magnitude;
+
+            float alpha = Mathf.Atan2(sina, cosa);
+
+            //float alpha = Mathf.Acos(Vector3.Dot(a, b) / (a.magnitude * b.magnitude));
+
+            Quaternion q = new Quaternion(axis.x * Mathf.Sin(alpha / 2), axis.y * Mathf.Sin(alpha / 2), axis.z * Mathf.Sin(alpha / 2), Mathf.Cos(alpha / 2));
+            joints[i].position = copy[i];
+            joints[i].rotation = q * joints[i].rotation;
+
+        }
+    }
+
+    //recol·loquem la resta de nodes (començant per el startNode)
     void repositionCopyNodes(int startNode)
     {
-        //recol·loquem la resta de nodes (començant per el startNode)
         for (int i = startNode; i <= copy.Length - 1; i++)
         {
             Vector3 temp = (copy[i] - copy[i - 1]);
@@ -153,5 +222,20 @@ public class FabrikIK : MonoBehaviour
                 copy[i] = temp + copy[i - 1];
             }
         }
+    }
+
+    /*
+     * Rota el primer joint sense aplicar-li twist 
+     */
+    void rotateWithoutTwist(int joint, Quaternion newRotation)
+    {
+
+
+
+    }
+
+    //Actualitza la rotació del primer (no està dintre  joint de tots (només és un twist)
+    void updateTwistJoint() {
+
     }
 }
