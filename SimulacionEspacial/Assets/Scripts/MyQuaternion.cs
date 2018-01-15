@@ -4,6 +4,12 @@ using System.Collections.Generic;
 namespace myClasses
 {
 
+    public struct AxisAngle
+    {
+        public Vector3 axis;
+        public float angle;
+    }
+
     public class MyQuaternion{
 
         public float x, y, z, w;
@@ -23,18 +29,24 @@ namespace myClasses
             return new MyQuaternion(-q.x/sum, -q.y/sum, -q.z/sum, q.w / sum);
         }
         
-
-        public Vector3 ConvertToAxisAngle(MyQuaternion q,Vector3 axis)
+        /*
+         * TODO: TENIR EN COMPTE ALFA=0 (INFINIT) I ALFA=180 
+         */
+        public AxisAngle ConvertToAxisAngle()
         {
-            float angle = 2 * UnityEngine.Mathf.Acos(q.w);
+            AxisAngle result;
+            result.angle = 2 * UnityEngine.Mathf.Acos(w);
 
-            axis.x = q.x / UnityEngine.Mathf.Sqrt(1 - q.w * q.w);
-            axis.y = q.y / UnityEngine.Mathf.Sqrt(1 - q.w * q.w);
-            axis.z = q.z / UnityEngine.Mathf.Sqrt(1 - q.w * q.w);
+            Vector3 axis = new Vector3();
+            axis.x = x / UnityEngine.Mathf.Sqrt(1 - w * w);
+            axis.y = y / UnityEngine.Mathf.Sqrt(1 - w * w);
+            axis.z = z / UnityEngine.Mathf.Sqrt(1 - w * w);
+            result.axis = axis;
 
-            return axis;
-
+            return result;
         }
+
+        //TODO: axis angle to quaternion
 
         public float Length()
         {
