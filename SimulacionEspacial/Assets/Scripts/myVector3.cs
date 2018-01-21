@@ -4,18 +4,18 @@ using System;
 namespace myClasses
 {
 
-    public class Vector3{
+    public class myVector3{
         public float x, y, z;
 
         //Constructors
-        public Vector3(float x, float y, float z)
+        public myVector3(float x, float y, float z)
         {
             this.x = x;
             this.y = y;
             this.z = z;
         }
-        public Vector3() : this(0, 0, 0) { }
-        public Vector3(float n) : this(n, n, n) { }
+        public myVector3() : this(0, 0, 0) { }
+        public myVector3(float n) : this(n, n, n) { }
 
         /* Això pot ser una mica liós....
         private static Vector3 up()
@@ -50,14 +50,14 @@ namespace myClasses
             this.z *= s;
         }
         //Dot product
-        public static float Dot(Vector3 a, Vector3 b)
+        public static float Dot(myVector3 a, myVector3 b)
         {
             return (a.x * b.x + a.y * b.y + a.z * b.z);
         }
         //Cross Product
-        public static Vector3 Cross(Vector3 a, Vector3 b)
+        public static myVector3 Cross(myVector3 a, myVector3 b)
         {
-            return new Vector3( (a.y*b.z-a.z*b.y), (a.z*b.x-a.x*b.z), (a.x*b.y-a.y*b.x) );
+            return new myVector3( (a.y*b.z-a.z*b.y), (a.z*b.x-a.x*b.z), (a.x*b.y-a.y*b.x) );
         }
         public void printValues()
         {
@@ -71,28 +71,28 @@ namespace myClasses
         //fer un clampWithRange?
 
         //Operators
-        public static Vector3 operator +(Vector3 a, Vector3 b)
+        public static myVector3 operator +(myVector3 a, myVector3 b)
         {
-            return new Vector3(a.x + b.x, a.y + b.y, a.z + b.z);
+            return new myVector3(a.x + b.x, a.y + b.y, a.z + b.z);
         }
-        public static Vector3 operator -(Vector3 a, Vector3 b)
+        public static myVector3 operator -(myVector3 a, myVector3 b)
         {
-            return new Vector3(a.x - b.x, a.y - b.y, a.z - b.z);
+            return new myVector3(a.x - b.x, a.y - b.y, a.z - b.z);
         }
-        public static Vector3 operator *(Vector3 a, float b)
+        public static myVector3 operator *(myVector3 a, float b)
         {
-            return new Vector3(a.x * b, a.y * b, a.z * b);
+            return new myVector3(a.x * b, a.y * b, a.z * b);
         }
-        public static Vector3 operator /(Vector3 a, float b)
+        public static myVector3 operator /(myVector3 a, float b)
         {
-            return new Vector3(a.x / b, a.y / b, a.z / b);
+            return new myVector3(a.x / b, a.y / b, a.z / b);
         }
 
-        public static bool operator ==(Vector3 a, Vector3 b)    //TODO: potser seria més correcte fer un .Equals()...
+        public static bool operator ==(myVector3 a, myVector3 b)    //TODO: potser seria més correcte fer un .Equals()...
         {
             return a.x == b.x && a.y == b.y && a.z == b.z;      //han de ser tots iguals
         }
-        public static bool operator !=(Vector3 a, Vector3 b)
+        public static bool operator !=(myVector3 a, myVector3 b)
         {
             return a.x != b.x || a.y != b.y || a.z != b.z;      //només que hi hagi un de diferent, els vectors seran diferents
         }

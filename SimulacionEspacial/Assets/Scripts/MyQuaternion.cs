@@ -6,7 +6,7 @@ namespace myClasses
 
     public struct AxisAngle
     {
-        public Vector3 axis;
+        public myVector3 axis;
         public float angle;
     }
 
@@ -20,6 +20,16 @@ namespace myClasses
             y = y1;
             z = z1;
             w = w1;
+        }
+
+        //Angle axis to quaternion - (angle en RAD)
+        public MyQuaternion(float angle, myVector3 axis)
+        {
+            axis.normalize();
+            x = axis.x * UnityEngine.Mathf.Sin(angle / 2);
+            y = axis.y * UnityEngine.Mathf.Sin(angle / 2);
+            z = axis.z * UnityEngine.Mathf.Sin(angle / 2);
+            w = UnityEngine.Mathf.Cos(angle / 2);
         }
 
         //Inversa = quaternió normalitzat i trasposat
@@ -37,16 +47,13 @@ namespace myClasses
             AxisAngle result;
             result.angle = 2 * UnityEngine.Mathf.Acos(w);
 
-            Vector3 axis = new Vector3();
-            axis.x = x / UnityEngine.Mathf.Sqrt(1 - w * w);
-            axis.y = y / UnityEngine.Mathf.Sqrt(1 - w * w);
-            axis.z = z / UnityEngine.Mathf.Sqrt(1 - w * w);
-            result.axis = axis;
+            result.axis     = new myVector3();
+            result.axis.x   = x / UnityEngine.Mathf.Sqrt(1 - w * w);
+            result.axis.y   = y / UnityEngine.Mathf.Sqrt(1 - w * w);
+            result.axis.z   = z / UnityEngine.Mathf.Sqrt(1 - w * w);
 
             return result;
         }
-
-        //TODO: axis angle to quaternion
 
         public float Length()
         {

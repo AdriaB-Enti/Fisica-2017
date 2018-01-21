@@ -6,17 +6,17 @@ public class testing : UnityEngine.MonoBehaviour
     
 	//Per comprovar ràpidament que el Vector 3 no té errors
 	void Start () {
-        Vector3 prova = new Vector3(0);
+        myVector3 prova = new myVector3(0);
         UnityEngine.Vector3 vectorUnity = new UnityEngine.Vector3();
         float dot1 = UnityEngine.Vector3.Dot(new UnityEngine.Vector3(1, 2, 3), new UnityEngine.Vector3(8, 9, 7));
-        float dot2 = Vector3.Dot(new Vector3(1, 2, 3), new Vector3(8, 9, 7));
+        float dot2 = myVector3.Dot(new myVector3(1, 2, 3), new myVector3(8, 9, 7));
 
         if (dot1 == dot2)
         {
             print("Dot is alright");
         }
 
-        prova = Vector3.Cross(new Vector3(1, 2, 3), new Vector3(8, 9, 7));
+        prova = myVector3.Cross(new myVector3(1, 2, 3), new myVector3(8, 9, 7));
         vectorUnity = UnityEngine.Vector3.Cross(new UnityEngine.Vector3(1, 2, 3), new UnityEngine.Vector3(8, 9, 7));
         if (prova.x==vectorUnity.x && prova.y == vectorUnity.y && prova.z == vectorUnity.z)
         {
@@ -39,7 +39,7 @@ public class testing : UnityEngine.MonoBehaviour
 
         }
 
-        prova = Vector3.Cross(new Vector3(0, 1, 0), new Vector3(0, 0, 1));
+        prova = myVector3.Cross(new myVector3(0, 1, 0), new myVector3(0, 0, 1));
         vectorUnity = UnityEngine.Vector3.Cross(new UnityEngine.Vector3(0, 1, 0), new UnityEngine.Vector3(0, 0, 1));
         if (prova.x == vectorUnity.x && prova.y == vectorUnity.y && prova.z == vectorUnity.z)
         {
