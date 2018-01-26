@@ -101,12 +101,13 @@ namespace myClasses
 
         public UnityEngine.Matrix4x4 toUnityMatrix()
         {
-            Vector4 c1 = new Vector4(matrix[0, 0], matrix[0, 1], matrix[0, 2], matrix[0, 3]);
-            Vector4 c2 = new Vector4(matrix[1, 0], matrix[1, 1], matrix[1, 2], matrix[1, 3]);
-            Vector4 c3 = new Vector4(matrix[2, 0], matrix[2, 1], matrix[2, 2], matrix[2, 3]);
-            Vector4 c4 = new Vector4(matrix[3, 0], matrix[3, 1], matrix[3, 2], matrix[3, 3]);
+            UnityEngine.Matrix4x4 result = new UnityEngine.Matrix4x4();
+            result.SetRow(0, new Vector4(matrix[0, 0], matrix[0, 1], matrix[0, 2], matrix[0, 3]));
+            result.SetRow(1, new Vector4(matrix[1, 0], matrix[1, 1], matrix[1, 2], matrix[1, 3]));
+            result.SetRow(2, new Vector4(matrix[2, 0], matrix[2, 1], matrix[2, 2], matrix[2, 3]));
+            result.SetRow(3, new Vector4(matrix[3, 0], matrix[3, 1], matrix[3, 2], matrix[3, 3]));
 
-            return new UnityEngine.Matrix4x4(c1, c2, c3, c4);
+            return result;
         }
 
     }
