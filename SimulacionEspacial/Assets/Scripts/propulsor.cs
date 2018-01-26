@@ -3,13 +3,14 @@ using System.Collections;
 
 public class propulsor : MonoBehaviour {
 
-	// Use this for initialization
+    public float forceMagnitude = 1;
+    public myRigidbody mrigidBody;
+
 	void Start () {
+
+    }
 	
-	}
-	
-	// Update is called once per frame
 	void Update () {
-	
+        mrigidBody.totalForce += forceMagnitude * transform.forward;
 	}
 }

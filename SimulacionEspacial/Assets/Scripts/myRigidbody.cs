@@ -12,14 +12,14 @@ public class myRigidbody : MonoBehaviour {
 
     Vector3 Pt; //Momento lineal
     Vector3 L; //Momento angular
-    Vector3 torque;
-    Vector3 totalForce;
+    Vector3 totalTorque;
+    public Vector3 totalForce;
     Vector3 velocity;
     Vector3 position;
     Vector3 w;
     Quaternion q;
 
-
+    Transform centerOfMassTransform;
 
     void Start () {
         //setejar els atributs?
@@ -28,9 +28,9 @@ public class myRigidbody : MonoBehaviour {
         rotation        = new Matrix3();
         inertiaTensor   = new Matrix3();
 
-        Pt          = new Vector3(100,0,0);
+        Pt          = new Vector3(0,0,0);
         L           = new Vector3();
-        torque      = new Vector3();
+        totalTorque = new Vector3();
         totalForce  = new Vector3();
         velocity    = new Vector3();
         position    = new Vector3();        //agafar posicio inicial GO?
@@ -41,15 +41,21 @@ public class myRigidbody : MonoBehaviour {
 
     void Update () {
         //actualitzar el transform 
+
+        //sumar les forces i els torques dels propulsors
+
         euler();
         transform.position = position;
 
+        //resetejar les forces i el torque
+        totalForce = new Vector3();
+        totalTorque = new Vector3();
 	}
 
     void euler()
     {
         Pt = Pt + UnityEngine.Time.deltaTime * (mass * totalForce);
-        L = L + UnityEngine.Time.deltaTime * torque;
+        L = L + UnityEngine.Time.deltaTime * totalTorque;
 
         velocity = Pt / mass;
 
@@ -76,5 +82,10 @@ public class myRigidbody : MonoBehaviour {
         //scale
         
 
+    }
+
+    Vector3 getCenterOfMass()
+    {
+        return position;
     }
 }
