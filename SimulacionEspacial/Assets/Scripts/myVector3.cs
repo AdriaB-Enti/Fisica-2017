@@ -59,6 +59,12 @@ namespace myClasses
         {
             return new myVector3( (a.y*b.z-a.z*b.y), (a.z*b.x-a.x*b.z), (a.x*b.y-a.y*b.x) );
         }
+        //Conversion to myQuaternion (with w=0)
+        public MyQuaternion toMyQuaternion()
+        {
+            return new MyQuaternion(x,y,z,0);
+        }
+
         public void printValues()
         {
             UnityEngine.MonoBehaviour.print("X: "+x+" Y: "+y+" Z: "+z);

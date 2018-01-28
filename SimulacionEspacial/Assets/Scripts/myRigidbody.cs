@@ -24,7 +24,7 @@ public class myRigidbody : MonoBehaviour {
     void Start () {
         //setejar els atributs?
         transformationT = new Matrix4x4();
-        iBody           = new Matrix3();
+        iBody = Matrix3.iBodyBox(mass, 1.95f,1f,1.3f); //VALORS ARBITRARIS--------------------------- POSAR ALGO MÉS PRECÍS
         rotation        = new Matrix3();
         inertiaTensor   = new Matrix3();
 
@@ -33,10 +33,10 @@ public class myRigidbody : MonoBehaviour {
         totalTorque = new Vector3();
         totalForce  = new Vector3();
         velocity    = new Vector3();
-        position    = new Vector3();        //agafar posicio inicial GO?
+        position    = transform.position;  //CANVIAR?------------------------------------------------------
         //w           = new Vector3();
-        q           = Quaternion.identity;  //agafar rotació inicial del GO?
-
+        q           = transform.rotation;  //CANVIAR?------------------------------------------------------
+        
     }
 
     void Update () {
@@ -62,7 +62,7 @@ public class myRigidbody : MonoBehaviour {
         position = position + UnityEngine.Time.deltaTime * velocity;
 
         //Opció 1:
-        //rotation = q.toMat3()
+        rotation = new Matrix3(q);
 
         //inertiaTensor = rotation * iBody * rotation;
         //w = inertiaTensor * L;
@@ -92,5 +92,13 @@ public class myRigidbody : MonoBehaviour {
     public Vector3 getCenterOfMass()
     {
         return position;
+    }
+
+
+
+    //TEMPORAL----------------------------------------------------------------------
+    Quaternion vec3ToQuat(Vector3 vector)
+    {
+        return new Quaternion(vector.x, vector.y, vector.z, 0);
     }
 }
