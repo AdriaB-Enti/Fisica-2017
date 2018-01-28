@@ -4,13 +4,19 @@ using System.Collections;
 public class propulsor : MonoBehaviour {
 
     public float forceMagnitude = 1;
-    public myRigidbody mrigidBody;
+    public myRigidbody myrigidBody;
 
 	void Start () {
 
     }
 	
 	void Update () {
-        mrigidBody.totalForce += forceMagnitude * transform.forward;
+        //Sumar forces
+        myrigidBody.totalForce += forceMagnitude * transform.forward;
+
+        //Sumar torque
+        Vector3 r = myrigidBody.getCenterOfMass() - transform.position;
+
+        myrigidBody.totalTorque += Vector3.Cross(r, forceMagnitude * transform.forward);
 	}
 }

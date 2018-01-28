@@ -12,7 +12,7 @@ public class myRigidbody : MonoBehaviour {
 
     Vector3 Pt; //Momento lineal
     Vector3 L; //Momento angular
-    Vector3 totalTorque;
+    public Vector3 totalTorque;
     public Vector3 totalForce;
     Vector3 velocity;
     Vector3 position;
@@ -61,13 +61,14 @@ public class myRigidbody : MonoBehaviour {
 
         position = position + UnityEngine.Time.deltaTime * velocity;
 
+        //Opció 1:
         //rotation = q.toMat3()
 
         //inertiaTensor = rotation * iBody * rotation;
         //w = inertiaTensor * L;
 
-        Quaternion q2 = new Quaternion(0, w.x, w.y, w.z);
-        Quaternion time;
+        //Quaternion q2 = new Quaternion(0, w.x, w.y, w.z);
+        //Quaternion time;
         //Quaternion time = (1.0f / 2.0f) * q2 * q;
 
         //q = q + time;
@@ -76,15 +77,19 @@ public class myRigidbody : MonoBehaviour {
 
         //transformationT = q.toMat4();
 
-
         //translate
         //rotate
         //scale
-        
+
+        //Opció 2:
+        Vector3 axis = totalTorque.normalized;
+        //float 
+
+
 
     }
 
-    Vector3 getCenterOfMass()
+    public Vector3 getCenterOfMass()
     {
         return position;
     }
