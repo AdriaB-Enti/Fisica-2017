@@ -51,7 +51,8 @@ public class testing : UnityEngine.MonoBehaviour
         Matrix3 mat3 = new Matrix3();
         mat3.matrix = new float[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, -8, -9 } };
         mat3.print();
-        myVector3.unityVec3ToMyVec3(mat3.getTransposed() * new myVector3(1, 5, 8)).printValues();//------ POSAR BE I MIRAR QUE HI HA MALAMENT
+
+        myVector3.unityVec3ToMyVec3(mat3 * new myVector3(88, 2, 9)).printValues();//------ POSAR BE I MIRAR QUE HI HA MALAMENT
         //(mat3 * mat3.getTransposed()).print();
         print(mat3.determinant() == -42 ? "Determinant Mat3x3 correcte": "Determinant Mat3x3 incorrecte");
 

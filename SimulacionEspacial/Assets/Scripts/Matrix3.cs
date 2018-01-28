@@ -81,7 +81,7 @@ namespace myClasses
             {
                 for (int i = 0; i < 3; i++)    //Columna de la matriu i del vector3
                 {
-                    result.setByIndex(i, result.getByIndex(i) + m1.matrix[r, i] * vector3.getByIndex(i));
+                    result.setByIndex(r, (result.getByIndex(r) + m1.matrix[r, i] * vector3.getByIndex(i)));
                 }
             }
 
