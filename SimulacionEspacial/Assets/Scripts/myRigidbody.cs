@@ -16,7 +16,7 @@ public class myRigidbody : MonoBehaviour {
     public Vector3 totalForce;
     Vector3 velocity;
     Vector3 position;
-    Vector3 w;
+    //Vector3 w;
     Quaternion q;
 
     Transform centerOfMassTransform;
@@ -34,7 +34,7 @@ public class myRigidbody : MonoBehaviour {
         totalForce  = new Vector3();
         velocity    = new Vector3();
         position    = new Vector3();        //agafar posicio inicial GO?
-        w           = new Vector3();
+        //w           = new Vector3();
         q           = Quaternion.identity;  //agafar rotació inicial del GO?
 
     }
@@ -81,11 +81,11 @@ public class myRigidbody : MonoBehaviour {
         //rotate
         //scale
 
-        //Opció 2:
+        //Opció 2 -----------PER FER TESTING
         Vector3 axis = totalTorque.normalized;
         //float 
-
-
+        float w = -L.magnitude / 2;  //velocitat angular 
+        transform.Rotate(axis, w * UnityEngine.Time.deltaTime*Mathf.Rad2Deg);
 
     }
 
