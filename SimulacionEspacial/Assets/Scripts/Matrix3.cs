@@ -40,10 +40,52 @@ namespace myClasses
             return iBody;
         }
 
-        //TODO: TRANSPOSADA
-        public void transpose()
+        public Matrix3 getTransposed()
         {
+            Matrix3 transposedMat = new Matrix3();
+            for (int r = 0; r < matrix.GetLength(0); r++)
+            {
+                for (int c = 0; c < matrix.GetLength(1); c++)
+                {
+                    transposedMat.matrix[r,c] = matrix[c,r];
+                }
+            }
+            return transposedMat;
+        }
 
+        //Mat3x3 * Mat3x3
+        public static Matrix3 operator *(Matrix3 m1, Matrix3 m2)
+        {
+            Matrix3 result = new Matrix3();
+
+            for (int r = 0; r < m1.matrix.GetLength(0); r++)
+            {
+                for (int c = 0; c < m1.matrix.GetLength(1); c++)
+                {
+                    for (int i = 0; i < m1.matrix.GetLength(0); i++)    //sumem les mult. de files per columnes
+                    {
+                        result.matrix[r, c] += m1.matrix[r,i] * m2.matrix[i,c];
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        //Mat3x3 * myVector3----------------------HI HA ALGUN ERROR EN EL CODI
+        public static Vector3 operator *(Matrix3 m1, myVector3 vector3)   //TODO: CAMBIAR PER MYVECTOR3-----------------------------------------------------------------
+        {
+            myVector3 result = new myVector3(0);
+
+            for (int r = 0; r < m1.matrix.GetLength(0); r++)
+            {
+                for (int i = 0; i < 3; i++)    //Columna de la matriu i del vector3
+                {
+                    result.setByIndex(i, result.getByIndex(i) + m1.matrix[r, i] * vector3.getByIndex(i));
+                }
+            }
+
+            return result.toUnityVector3();//------------------------------
         }
 
         public float determinant()
@@ -56,15 +98,22 @@ namespace myClasses
                     matrix[2, 2] * matrix[1, 0] * matrix[0, 1];
         }
 
-
         public void print()
         {
-            foreach (int item in matrix)
+            string text = "";
+            for (int r = 0; r < matrix.GetLength(0); r++)
             {
-                UnityEngine.MonoBehaviour.print(item);
+                for (int c = 0; c < matrix.GetLength(1); c++)
+                {
+                    text += matrix[r, c];
+                    if (c < 2)
+                    {
+                        text += ", ";
+                    }
+                }
+                text += "\n";
             }
+            UnityEngine.MonoBehaviour.print(text);
         }
-
-
     }
 }

@@ -16,7 +16,7 @@ public class myRigidbody : MonoBehaviour {
     public Vector3 totalForce;
     Vector3 velocity;
     Vector3 position;
-    //Vector3 w;
+    Vector3 w;
     Quaternion q;
 
     Transform centerOfMassTransform;
@@ -34,7 +34,7 @@ public class myRigidbody : MonoBehaviour {
         totalForce  = new Vector3();
         velocity    = new Vector3();
         position    = transform.position;  //CANVIAR?------------------------------------------------------
-        //w           = new Vector3();
+        w           = new Vector3();        //CANVIAR!!!------------------------------------------------------
         q           = transform.rotation;  //CANVIAR?------------------------------------------------------
         
     }
@@ -64,8 +64,10 @@ public class myRigidbody : MonoBehaviour {
         //Opció 1:
         rotation = new Matrix3(q);
 
-        //inertiaTensor = rotation * iBody * rotation;
+        inertiaTensor = rotation * iBody * rotation.getTransposed();
+        myVector3 convertedL = myVector3.unityVec3ToMyVec3(L);  //TODO: fer servir nomes myVector3
         //w = inertiaTensor * L;
+        w = (inertiaTensor * convertedL); 
 
         //Quaternion q2 = new Quaternion(0, w.x, w.y, w.z);
         //Quaternion time;
@@ -82,11 +84,11 @@ public class myRigidbody : MonoBehaviour {
         //scale
 
         //Opció 2 -----------PER FER TESTING
+        /*
         Vector3 axis = totalTorque.normalized;
-        //float 
         float w = -L.magnitude / 2;  //velocitat angular 
         transform.Rotate(axis, w * UnityEngine.Time.deltaTime*Mathf.Rad2Deg);
-
+        */
     }
 
     public Vector3 getCenterOfMass()

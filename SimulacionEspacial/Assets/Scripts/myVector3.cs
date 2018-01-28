@@ -76,6 +76,43 @@ namespace myClasses
         }
         //fer un clampWithRange?
 
+        //Si el index és mes gran que 1 o més petit que 0 -> sempre tornara z
+        public float getByIndex(int index)
+        {
+            if (index==0)
+            {
+                return x;
+            }
+            else if (index == 1)
+            {
+                return y;
+            }
+            else
+            {
+                return z;
+            }
+        }
+        //Si el index és mes gran que 1 o més petit que 0 -> sempre es setejarà z
+        public void setByIndex(int index, float value)
+        {
+            if (index == 0)
+            {
+                x = value;
+            }
+            else if (index == 1)
+            {
+                y = value;
+            }
+            else
+            {
+                z = value;
+            }
+        }
+
+        public static myVector3 unityVec3ToMyVec3(UnityEngine.Vector3 unityVec)
+        {
+            return new myVector3(unityVec.x, unityVec.y, unityVec.z);
+        }
         //Operators
         public static myVector3 operator +(myVector3 a, myVector3 b)
         {
