@@ -35,8 +35,7 @@ public class myRigidbody : MonoBehaviour {
 
     void Start () {
         //setejar els atributs?
-        //iBody = Matrix3.iBodyBox(mass, 1.95f, 1f, 1.3f); //VALORS ARBITRARIS--------------------------- POSAR ALGO MÉS PRECÍS
-        iBody = Matrix3.iBodyBox(mass, 2f, 2f, 2f); //TESTING----------- DELETE------------------------------------------------
+        iBody       = Matrix3.iBodyBox(mass, 1.95f, 1f, 1.3f); //VALORS ARBITRARIS--------------------------- POSAR ALGO MÉS PRECÍS
         rotation    = new Matrix3();
         inertiaTensor = new Matrix3();
 
@@ -47,8 +46,17 @@ public class myRigidbody : MonoBehaviour {
         velocity    = new Vector3();
         position    = transform.position;  //CANVIAR?------------------------------------------------------
         w           = new Vector3();        //CANVIAR!!!------------------------------------------------------
-        q           = transform.rotation;  //CANVIAR?------------------------------------------------------
-        myq = new MyQuaternion(transform.rotation);
+        q = transform.rotation;  //CANVIAR?------------------------------------------------------
+
+
+        myPt            = new myVector3(0);
+        myL             = new myVector3(0);
+        mytotalTorque   = new myVector3(0);
+        mytotalForce    = new myVector3(0);
+        myvelocity      = new myVector3(0);
+        myposition      = myVector3.unityToMyVec(transform.position);
+        myw             = new myVector3(0);        //CANVIAR!!!------------------------------------------------------
+        myq             = new MyQuaternion(transform.rotation);
     }
 
     void Update () {
@@ -56,23 +64,25 @@ public class myRigidbody : MonoBehaviour {
         euler();
 
         //resetejar les forces i el torque
-        totalForce = new Vector3();
-        totalTorque = new Vector3();
-	}
+        //totalForce = new Vector3();
+        //totalTorque = new Vector3();
+
+        mytotalTorque = new myVector3(0);
+        mytotalForce = new myVector3(0);
+    }
 
     void euler()
     {
         //print(Matrix3.error);   //---------------------------------------------------------------------------------------------------------------------------DEBUG
-        Pt = Pt + UnityEngine.Time.deltaTime * (mass * totalForce);
-        L = L + UnityEngine.Time.deltaTime * totalTorque;
+        //Pt = Pt + UnityEngine.Time.deltaTime * (mass * totalForce);
+        //L = L + UnityEngine.Time.deltaTime * totalTorque;
 
-        velocity = Pt / mass;
-
-        position = position + UnityEngine.Time.deltaTime * velocity;
+        //velocity = Pt / mass;
+        //position = position + UnityEngine.Time.deltaTime * velocity;
         //print("Quaternion: " + q.w + " x" + q.x + " y" + q.y + " z" + q.z);   //det = 0   //---------------------------------------------------------------------------------------------------------------------------DEBUG
 
         //Opció 1:
-        rotation = new Matrix3(q);
+        //rotation = new Matrix3(q);
         //print("Rotation:");   //---------------------------------------------------------------------------------------------------------------------------DEBUG
         //rotation.print();   //---------------------------------------------------------------------------------------------------------------------------DEBUG
         //print("Rotation transposed:");
@@ -80,47 +90,54 @@ public class myRigidbody : MonoBehaviour {
         //print("iBody:");   //---------------------------------------------------------------------------------------------------------------------------DEBUG
         //iBody.print();   //---------------------------------------------------------------------------------------------------------------------------DEBUG
 
-        inertiaTensor = rotation * iBody * rotation.getTransposed();
         //print("inertia Tensor:");
         //inertiaTensor.print();   //---------------------------------------------------------------------------------------------------------------------------DEBUG
         //print("inertia Tensor inverted:");
         //inertiaTensor.getInverse().print();   //---------------------------------------------------------------------------------------------------------------------------DEBUG
 
-        myVector3 convertedL = myVector3.unityVec3ToMyVec3(L);  //TODO: fer servir nomes myVector3
-        //w = inertiaTensor.getInverse() * L;
-        w = (inertiaTensor.getInverse() * convertedL);
+
+        myPt = myPt + UnityEngine.Time.deltaTime * (mass * mytotalForce);
+        myL = myL + UnityEngine.Time.deltaTime * mytotalTorque;
+        myvelocity = myPt / mass;
+        myposition = myposition + UnityEngine.Time.deltaTime * myvelocity;
+        rotation = new Matrix3(myq);
+
+        inertiaTensor = rotation * iBody * rotation.getTransposed();
+
+        //myVector3 convertedL = myVector3.unityVec3ToMyVec3(L);  //TODO: fer servir nomes myVector3
+        myw = inertiaTensor.getInverse() * myL;
+        //w = (inertiaTensor.getInverse() * convertedL);
         //print(w);   //---------------------------------------------------------------------------------------------------------------------------DEBUG
         //print(Matrix3.error);   //---------------------------------------------------------------------------------------------------------------------------DEBUG
 
-        myq = new MyQuaternion(q);
-        MyQuaternion myq2 = new MyQuaternion(myVector3.unityVec3ToMyVec3(w));       //canviar
+        MyQuaternion myq2 = new MyQuaternion(myw);       //canviar
         MyQuaternion mytime = ((1.0f / 2.0f) * myq2) * myq;
         myq = myq + mytime;
         myq.normalize();
 
 
-        Quaternion q2 = new Quaternion(w.x, w.y, w.z, 0);
-        Quaternion time = multiplyQuat(q2, (1.0f / 2.0f)) * q;
-        q = sumQuat(q, time);
-        normalizeQuat(q);
+        //Quaternion q2 = new Quaternion(w.x, w.y, w.z, 0);
+        //Quaternion time = multiplyQuat(q2, (1.0f / 2.0f)) * q;
+        //q = sumQuat(q, time);
+        //normalizeQuat(q);
 
         //transform.rotation = q;
+        //transform.position = position;
+
+        //Update the position and rotation
         transform.rotation = myq.toUnityQuat();
+        transform.position = myposition.toUnityVector3();
 
-        transform.position = position;
-
-        
-        //Opció 2 -----------PER FER TESTING
-        /*
-        Vector3 axis = totalTorque.normalized;
-        float w = -L.magnitude / 2;  //velocitat angular 
-        transform.Rotate(axis, w * UnityEngine.Time.deltaTime*Mathf.Rad2Deg);
-        */
     }
 
-    public Vector3 getCenterOfMass()
+    public Vector3 getCenterOfMassVec3()        //............................................................................. CANVIAR
     {
-        return position;
+        return transform.position;
+    }
+
+    public myVector3 getCenterOfMass()        //............................................................................. CANVIAR
+    {
+        return myposition;
     }
 
     Quaternion normalizeQuat(Quaternion quat)

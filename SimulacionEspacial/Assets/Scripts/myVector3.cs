@@ -17,24 +17,10 @@ namespace myClasses
         public myVector3() : this(0, 0, 0) { }
         public myVector3(float n) : this(n, n, n) { }
 
-        /* Això pot ser una mica liós....
-        private static Vector3 up()
-        {
-            return new Vector3(0, 1, 0);
-        }
-        private static Vector3 left()
-        {
-            return new Vector3(0, 0, 1);
-        }
-        private static Vector3 front()
-        {
-            return new Vector3(1, 0, 0);
-        }*/
-
         //Methods
         public float modulus()
         {
-            return (float)Math.Sqrt(x * x + y * y + z * z); //controlar els casos on és casi 0 o casi 1?
+            return (float)Math.Sqrt(x * x + y * y + z * z);
         }
         public void normalize()
         {
@@ -109,7 +95,7 @@ namespace myClasses
             }
         }
 
-        public static myVector3 unityVec3ToMyVec3(UnityEngine.Vector3 unityVec)
+        public static myVector3 unityToMyVec(UnityEngine.Vector3 unityVec)
         {
             return new myVector3(unityVec.x, unityVec.y, unityVec.z);
         }
@@ -123,6 +109,10 @@ namespace myClasses
             return new myVector3(a.x - b.x, a.y - b.y, a.z - b.z);
         }
         public static myVector3 operator *(myVector3 a, float b)
+        {
+            return new myVector3(a.x * b, a.y * b, a.z * b);
+        }
+        public static myVector3 operator *(float b, myVector3 a)
         {
             return new myVector3(a.x * b, a.y * b, a.z * b);
         }

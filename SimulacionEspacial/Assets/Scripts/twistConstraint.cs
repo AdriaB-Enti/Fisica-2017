@@ -62,8 +62,6 @@ public class twistConstraint : MonoBehaviour
         return swing;
 
     }
-    //https://en.wikipedia.org/wiki/Vector_projection
-    //https://en.wikipedia.org/wiki/Dot_product#Scalar_projection_and_first_properties
     */
 
     void Update() //--tornar a posar a lateUpdate?
@@ -127,11 +125,10 @@ public class twistConstraint : MonoBehaviour
             theta *= Mathf.Rad2Deg;
             
 
-
             if (theta>2)
             {
                 Debug.Log(theta);
-                transform.rotation = Quaternion.AngleAxis(theta, axis) * transform.rotation; //descomentar
+                transform.rotation = Quaternion.AngleAxis(theta, axis) * transform.rotation;
 
             }
             

@@ -147,7 +147,7 @@ namespace myClasses
         }
 
         //Matrix3 * Vector3
-        public static Vector3 operator *(Matrix3 m1, myVector3 vector3)   //TODO: CAMBIAR PER MYVECTOR3-----------------------------------------------------------------
+        public static myVector3 operator *(Matrix3 m1, myVector3 vector3) //-------------------- abans retornava Vector3----------------
         {
             myVector3 result = new myVector3(0);
 
@@ -159,7 +159,7 @@ namespace myClasses
                 }
             }
 
-            return result.toUnityVector3();//----------------------------------------------------------
+            return result;//----------------------------------------------------------
         }
 
         public float determinant()

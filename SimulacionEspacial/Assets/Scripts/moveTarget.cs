@@ -32,7 +32,7 @@ public class moveTarget : MonoBehaviour {
         {
             transform.position += new Vector3(0, Time.deltaTime * speed, 0);
         }
-        if (Input.GetKey(KeyCode.Plus))
+        if (Input.GetKey(KeyCode.Period))
         {
             transform.position += new Vector3(0, -Time.deltaTime * speed, 0);
         }

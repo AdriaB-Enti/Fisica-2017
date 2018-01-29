@@ -58,14 +58,6 @@ namespace myClasses
             UnityEngine.MonoBehaviour.print(text);
         }
 
-        //inverse
-        
-        //rotation
-
-        //transpose
-
-        //operadors
-
         //Retorna una matriu 3x3 sense la fila i la columna que li passem
         //Si col o row són més grans que 3, donarà error
         public Matrix3 getMat3From(byte row, byte col)
@@ -98,7 +90,6 @@ namespace myClasses
             return mat3;
         }
 
-
         public UnityEngine.Matrix4x4 toUnityMatrix()
         {
             UnityEngine.Matrix4x4 result = new UnityEngine.Matrix4x4();
@@ -109,8 +100,5 @@ namespace myClasses
 
             return result;
         }
-
     }
-
-    
 }
