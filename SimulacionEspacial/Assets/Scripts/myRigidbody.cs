@@ -66,17 +66,18 @@ public class myRigidbody : MonoBehaviour {
 
         inertiaTensor = rotation * iBody * rotation.getTransposed();
         myVector3 convertedL = myVector3.unityVec3ToMyVec3(L);  //TODO: fer servir nomes myVector3
-        //w = inertiaTensor * L;
-        w = (inertiaTensor.getInverse() * convertedL); //invertir el inertia tensor!!!!!!!!!!!!!----------
-
+        //w = inertiaTensor.getInverse() * L;
+        w = (inertiaTensor.getInverse() * convertedL);
+        print(w);
         Quaternion q2 = new Quaternion(0, w.x, w.y, w.z);
         
-        //Quaternion time = (1.0f / 2.0f) * q2 * q; //s'ha de normalitzar???
+        Quaternion time = multiplyQuat(q2, (1.0f / 2.0f)) * q; //s'ha de normalitzar???
 
-        //q = q + time;
+        q = sumQuat(q, time);
 
-        //q.normalize;
+        normalizeQuat(q);
 
+        transform.rotation = q;
         //transformationT = q.toMat4();
 
         //translate
@@ -109,4 +110,16 @@ public class myRigidbody : MonoBehaviour {
         float sqrtSum = Mathf.Sqrt(quat.w * quat.w + quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
         return new Quaternion(quat.x/sqrtSum, quat.y/sqrtSum, quat.z/sqrtSum, quat.w/sqrtSum);
     }
+
+    Quaternion multiplyQuat(Quaternion quat, float scalar)
+    {
+        //normalitzar???
+        return new Quaternion(quat.x * scalar, quat.y * scalar, quat.z * scalar, quat.w * scalar);
+    }
+
+    Quaternion sumQuat(Quaternion q1, Quaternion q2)
+    {
+        return new Quaternion(q1.x+q2.x, q1.y + q2.y, q1.z + q2.z, q1.w + q2.w);
+    }
+    
 }
