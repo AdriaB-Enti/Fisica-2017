@@ -101,38 +101,59 @@ public class FabrikIK : MonoBehaviour
                 }
             }
 
+            
             //actualitzar rotacions plans
             updatePlaneCopyRotations();
-
             //---------------------CONSTRAINTS-------------------
-            Vector3 vectorToPlane;
-            Vector3 pointInLine;
-            float escalar;
-            Vector3 projectedPoint;
-
-            for (int i = 1; i <= 3; i++)     //joints que necessiten constraints
-            {
-                //Projectem el punt del joint al pla
-                //vectorToPlane = -planes[i - 1].up;                                            //vector com la normal del pla, en direcció al pla--------------------------------
-                vectorToPlane = -planeNormals[i-1];                                            //vector com la normal del pla, en direcció al pla--------------------------------
-                pointInLine = copy[i] + vectorToPlane;
-                escalar = Vector3.Dot(planeNormals[i - 1].normalized, (copy[i - 1] - copy[i])) /(Vector3.Dot(planeNormals[i - 1].normalized, (pointInLine - copy[i])));      //copy[1]->punt en el pla----------
-                //escalar = Vector3.Dot(planes[i-1].up.normalized, (copy[i-1] - copy[i])) /
-                    //(Vector3.Dot(planes[i-1].up.normalized, (pointInLine - copy[i])));      //copy[1]->punt en el pla
-                projectedPoint = copy[i] + escalar * vectorToPlane;                         //sense tenir en compte les distancies
-                if (escalar != 0)
-                {
-                    projection.position = copy[i-1] + (projectedPoint - copy[i-1]).normalized * distances[i-1];    //vector director en el pla * distancia que toqui
-                    //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo?
-                    copy[i] = projection.position;
-                }
-                repositionCopyNodes(i+1);
-            }
+            constraints();
             //---------------------END CONSTRAINTS-------------------
-
+            
             updateJointRotations();
-            //updatePlaneRotations
         }
+    }
+
+    //constraints - no funciona
+    void constraints()
+    {
+        //actualitzar rotacions plans
+        updatePlaneCopyRotations();
+
+        Vector3 vectorToPlane;
+        Vector3 pointInLine;
+        float escalar;
+        Vector3 projectedPoint;
+
+        for (int i = 1; i <= 3; i++)     //joints que necessiten constraints
+        {
+            //Projectem el punt del joint al pla
+            //vectorToPlane = -planes[i - 1].up;                                            //vector com la normal del pla, en direcció al pla--------------------------------
+            vectorToPlane = -planeNormals[i - 1];                                            //vector com la normal del pla, en direcció al pla--------------------------------
+            pointInLine = copy[i] + vectorToPlane;
+            escalar = Vector3.Dot(planeNormals[i - 1].normalized, (copy[i - 1] - copy[i])) / (Vector3.Dot(planeNormals[i - 1].normalized, (pointInLine - copy[i])));      //copy[1]->punt en el pla----------
+                                                                                                                                                                          //escalar = Vector3.Dot(planes[i-1].up.normalized, (copy[i-1] - copy[i])) /
+                                                                                                                                                                          //(Vector3.Dot(planes[i-1].up.normalized, (pointInLine - copy[i])));      //copy[1]->punt en el pla
+            projectedPoint = copy[i] + escalar * vectorToPlane;                         //sense tenir en compte les distancies
+            if (escalar != 0)
+            {
+                projection.position = copy[i - 1] + (projectedPoint - copy[i - 1]).normalized * distances[i - 1];    //vector director en el pla * distancia que toqui
+                                                                                                                     //CONTROLAR QUAN copy[0] i el projected son el mateix punt, fer algo?
+                copy[i] = projection.position;
+            }
+            repositionCopyNodes(i + 1);
+        }
+    }
+
+    //TODO---------------------------------------------------------------------------------------------------------------------------------------
+    //Rota el primer joint sense aplicar-li twist 
+    void rotateWithoutTwist(int joint, Quaternion newRotation)
+    {
+
+    }
+
+    //Actualitza la rotació del primer (no està dintre  joint de tots (només és un twist)
+    void updateTwistJoint()
+    {
+
     }
 
     //actualitza la rotació del pla segons les posicions dels copy
@@ -210,7 +231,6 @@ public class FabrikIK : MonoBehaviour
         return new Quaternion(axis.x * Mathf.Sin(alpha / 2), axis.y * Mathf.Sin(alpha / 2), axis.z * Mathf.Sin(alpha / 2), Mathf.Cos(alpha / 2));
     }
 
-
     //Projeccio del punt al pla (retorna el mateix punt si ja estava al pla) sense tenir en compte les distances (la distancia fins el pointInPlane pot ser qualsevol)
     //http://geomalgorithms.com/a05-_intersect-1.html
     Vector3 getProjectionToPlane(Vector3 planeNormal, Vector3 pointInPlane, Vector3 pointToProject)
@@ -267,20 +287,6 @@ public class FabrikIK : MonoBehaviour
         }
     }
 
-    /*
-     * Rota el primer joint sense aplicar-li twist 
-     */
-    void rotateWithoutTwist(int joint, Quaternion newRotation)
-    {
-
-
-
-    }
-
-    //Actualitza la rotació del primer (no està dintre  joint de tots (només és un twist)
-    void updateTwistJoint() {
-
-    }
 
     Vector3 rotateVecWithQuat(Vector3 vec, Quaternion rotation)
     {

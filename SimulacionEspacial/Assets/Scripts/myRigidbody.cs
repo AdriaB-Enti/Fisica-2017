@@ -5,7 +5,7 @@ using myClasses;
 
 public class myRigidbody : MonoBehaviour {
     //Start values
-    const float DEFAULTMASS = 97f;
+    const float DEFAULTMASS = 240f; //MMU+astronaut
     //Size of the "box"
     const float HEIGHT  = 1.87f;
     const float WIDTH   = 1.049f;
