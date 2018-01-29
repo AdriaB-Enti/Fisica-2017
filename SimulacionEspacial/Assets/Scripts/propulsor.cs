@@ -8,6 +8,8 @@ public class propulsor : MonoBehaviour
     public float forceMagnitude = 1;
     public myRigidbody myrigidBody;
     myVector3 forward;
+
+
     void Start()
     {
 
@@ -15,14 +17,16 @@ public class propulsor : MonoBehaviour
 
     void Update()
     {
-        forward = myVector3.unityToMyVec(transform.forward);    //CANVIAR..............------------------------.......
+        if (!simulationController.simulationPaused)
+        {
+            forward = myVector3.unityToMyVec(transform.forward);
 
-        //Sumar forces
-        myrigidBody.totalForce += forceMagnitude * forward;
-        //Sumar torque
-        myVector3 r = myVector3.unityToMyVec(transform.position) - myrigidBody.getCenterOfMass();
-        myrigidBody.totalTorque += myVector3.Cross(r, forceMagnitude * forward);
-        
+            //Sumar forces
+            myrigidBody.totalForce += forceMagnitude * forward;
+            //Sumar torque
+            myVector3 r = myVector3.unityToMyVec(transform.position) - myrigidBody.getCenterOfMass();
+            myrigidBody.totalTorque += myVector3.Cross(r, forceMagnitude * forward);
+        }
     }
 }
 

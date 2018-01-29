@@ -53,7 +53,12 @@ namespace myClasses
 
         public void printValues()
         {
-            UnityEngine.MonoBehaviour.print("X: "+x+" Y: "+y+" Z: "+z);
+            UnityEngine.MonoBehaviour.print("X: " + x + " Y: " + y + " Z: " + z);
+        }
+        public String getString()
+        {
+            
+            return ("X: " + String.Format("{0:0.00}", x) + " Y: " + String.Format("{0:0.00}", y) + " Z: " + String.Format("{0:0.00}", z));
         }
         //Per anar fent proves si necessitem un vector3 de Unity
         public UnityEngine.Vector3 toUnityVector3()

@@ -10,7 +10,7 @@ public class myRigidbody : MonoBehaviour {
     const float HEIGHT  = 1.87f;
     const float WIDTH   = 1.049f;
     const float DEPTH   = 1.186f;
-    float mass = DEFAULTMASS;
+    public float mass = DEFAULTMASS;
 
     Matrix3 iBody;
     Matrix3 rotation;
@@ -21,8 +21,8 @@ public class myRigidbody : MonoBehaviour {
     public myVector3 totalTorque;     //Total torque sum
     public myVector3 totalForce;      //Total force sum
     myVector3 position;
-    myVector3 velocity;               //Speed
-    myVector3 w;                      //Angular speed
+    public myVector3 velocity;               //Speed
+    public myVector3 w;                      //Angular speed
     MyQuaternion q;                   //Current rotation
 
     Transform centerOfMassTransform;
@@ -55,12 +55,14 @@ public class myRigidbody : MonoBehaviour {
     }
 
     void Update () {
+        if (!simulationController.simulationPaused)
+        {
+            euler();
 
-        euler();
-
-        //Reset the total force and torque
-        totalTorque   = new myVector3(0);
-        totalForce    = new myVector3(0);
+            //Reset the total force and torque
+            totalTorque   = new myVector3(0);
+            totalForce    = new myVector3(0);
+        }
     }
 
     void euler()
