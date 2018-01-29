@@ -21,10 +21,13 @@ namespace myClasses
 
         public Matrix3(MyQuaternion quat)
         {
-            //TODO----------------------------------------------------------------------
+            matrix = new float[,] {
+                { 1.0f-2*quat.y*quat.y - 2*quat.z*quat.z,  2*quat.x*quat.y + 2*quat.w*quat.z,        2*quat.x*quat.z - 2*quat.w*quat.y },
+                { 2*quat.x*quat.y - 2*quat.w*quat.z,  1.0f - 2*quat.x*quat.x - 2*quat.z*quat.z,    2*quat.y*quat.z + 2*quat.w*quat.x },
+                { 2*quat.x*quat.z + 2*quat.w*quat.y,  2*quat.y*quat.z - 2*quat.w*quat.x,        1.0f - 2*quat.x*quat.x -2*quat.y*quat.y } };
         }
 
-        public Matrix3(UnityEngine.Quaternion quat)
+        public Matrix3(UnityEngine.Quaternion quat)//--- treure?
         {
             matrix = new float[,] { 
                 { 1.0f-2*quat.y*quat.y - 2*quat.z*quat.z,  2*quat.x*quat.y + 2*quat.w*quat.z,        2*quat.x*quat.z - 2*quat.w*quat.y }, 

@@ -32,6 +32,15 @@ namespace myClasses
             w = UnityEngine.Mathf.Cos(angle / 2.0f);
         }
 
+        //Si li passem un vector3-> posa w a 0
+        public MyQuaternion(myVector3 axis)
+        {
+            x = axis.x;
+            y = axis.y;
+            z = axis.z;
+            w = 0;
+        }
+
         //Inversa = quaternió normalitzat i trasposat
         public MyQuaternion Invert(MyQuaternion q)
         {
@@ -40,7 +49,7 @@ namespace myClasses
         }
         
         /*
-         * TODO: TENIR EN COMPTE ALFA=0 (INFINIT) I ALFA=180 
+         * TODO: TENIR EN COMPTE ALFA=0 (INFINIT?) I ALFA=180 
          */
         public AxisAngle ConvertToAxisAngle()
         {
@@ -61,13 +70,13 @@ namespace myClasses
                 + this.z * this.z);
         }
 
-        public MyQuaternion Normalize()
+        public void normalize()
         {
             float magnitud = this.Length();
-            MyQuaternion result1 = new MyQuaternion(this.x/magnitud, this.y/magnitud, 
-                this.z/magnitud, this.w / magnitud);
-
-            return result1;
+            this.x = this.x / magnitud;
+            this.y = this.y / magnitud;
+            this.z = this.z / magnitud;
+            this.w = this.w / magnitud;
         }
 
         //Retorna q* (o lo que és el mateix, el quaternió trasposat)
@@ -103,9 +112,17 @@ namespace myClasses
                                                    );
         }
 
-        //TODO: QUATERNION * FLOAT
+        //Quaternion + Quaternion
+        public static MyQuaternion operator +(MyQuaternion q1, MyQuaternion q2)
+        {
+            return new MyQuaternion(q1.x + q2.x, q1.y + q2.y, q1.z + q2.z, q1.w + q2.w);
+        }
 
-        //TODO: QUATERNION + operator
+        //Float * Quaternion
+        public static MyQuaternion operator *(float scalar, MyQuaternion quat)
+        {
+            return new MyQuaternion(quat.x*scalar, quat.y * scalar, quat.z * scalar, quat.w * scalar);
+        }
 
         public static bool operator ==(MyQuaternion a, MyQuaternion b)  //seria més correcte posar-ho en un equals...
         {
@@ -114,6 +131,14 @@ namespace myClasses
         public static bool operator !=(MyQuaternion a, MyQuaternion b)
         {
             return a.x != b.x || a.y != b.y || a.z != b.z || a.w != b.w;
+        }
+
+        public MyQuaternion(UnityEngine.Quaternion quat)
+        {
+            x = quat.x;
+            y = quat.y;
+            z = quat.z;
+            w = quat.w;
         }
     }
 
