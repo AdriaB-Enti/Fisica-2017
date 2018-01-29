@@ -40,6 +40,14 @@ namespace myClasses
             return iBody;
         }
 
+        public Matrix3 getInverse()
+        {
+            float det = determinant();
+
+            return 1/det * (cofactorMat().getTransposed());
+        }
+        
+        //switches rows and columns
         public Matrix3 getTransposed()
         {
             Matrix3 transposedMat = new Matrix3();
@@ -53,6 +61,64 @@ namespace myClasses
             return transposedMat;
         }
 
+        //returns a cofactor Matrix3x3 from tha same matrix
+        public Matrix3 cofactorMat()
+        {
+            Matrix3 cofactor = new Matrix3();
+
+            float sign = 1.0f;      //anirà alternant entre +1 i -1
+            for (int r = 0; r < 3; r++)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    cofactor.matrix[r, c] = sign * detMat2WithoutRowCol(r, c);
+                    sign *= -1;
+                }
+            }
+            return cofactor;
+        }
+
+        //Returns the determinant of the 2x2 Matrix obtained by eliminating the row and column of this 3x3 matrix
+        public float detMat2WithoutRowCol(int row, int col)
+        {
+            float[,] matrix2 = new float[2, 2];
+            int nr = 0; //new row (index de la matrix2)
+            int nc = 0; //new colum (index de la matrix2)
+            for (int r = 0; r < 3; r++)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    if (r != row && c != col)
+                    {
+                        matrix2[nr, nc] = matrix[r, c];
+                    }
+                    if (c != col)
+                    {
+                        nc++;
+                    }
+                }
+                if (r != row)
+                {
+                    nr++;
+                }
+                nc = 0;
+            }
+            return (matrix2[0, 0] * matrix2[1, 1] - matrix2[1, 0] * matrix2[0, 1]);
+        }
+
+        //FLOAT * MAT3X3
+        public static Matrix3 operator *(float f, Matrix3 m)
+        {
+            Matrix3 result = m;
+            for (int r = 0; r < 3; r++)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    result.matrix[r, c] *= f;
+                }
+            }
+            return result;
+        }
         //Mat3x3 * Mat3x3
         public static Matrix3 operator *(Matrix3 m1, Matrix3 m2)
         {
@@ -72,7 +138,7 @@ namespace myClasses
             return result;
         }
 
-        //Mat3x3 * myVector3----------------------HI HA ALGUN ERROR EN EL CODI
+        //Matrix3 * Vector3
         public static Vector3 operator *(Matrix3 m1, myVector3 vector3)   //TODO: CAMBIAR PER MYVECTOR3-----------------------------------------------------------------
         {
             myVector3 result = new myVector3(0);
@@ -85,7 +151,7 @@ namespace myClasses
                 }
             }
 
-            return result.toUnityVector3();//------------------------------
+            return result.toUnityVector3();//----------------------------------------------------------
         }
 
         public float determinant()

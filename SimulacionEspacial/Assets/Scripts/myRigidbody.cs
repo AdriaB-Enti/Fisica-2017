@@ -24,7 +24,7 @@ public class myRigidbody : MonoBehaviour {
     void Start () {
         //setejar els atributs?
         transformationT = new Matrix4x4();
-        iBody = Matrix3.iBodyBox(mass, 1.95f,1f,1.3f); //VALORS ARBITRARIS--------------------------- POSAR ALGO MÉS PRECÍS
+        iBody = Matrix3.iBodyBox(mass, 1.95f, 1f, 1.3f); //VALORS ARBITRARIS--------------------------- POSAR ALGO MÉS PRECÍS
         rotation        = new Matrix3();
         inertiaTensor   = new Matrix3();
 
@@ -67,11 +67,11 @@ public class myRigidbody : MonoBehaviour {
         inertiaTensor = rotation * iBody * rotation.getTransposed();
         myVector3 convertedL = myVector3.unityVec3ToMyVec3(L);  //TODO: fer servir nomes myVector3
         //w = inertiaTensor * L;
-        w = (inertiaTensor * convertedL); 
+        w = (inertiaTensor.getInverse() * convertedL); //invertir el inertia tensor!!!!!!!!!!!!!----------
 
-        //Quaternion q2 = new Quaternion(0, w.x, w.y, w.z);
-        //Quaternion time;
-        //Quaternion time = (1.0f / 2.0f) * q2 * q;
+        Quaternion q2 = new Quaternion(0, w.x, w.y, w.z);
+        
+        //Quaternion time = (1.0f / 2.0f) * q2 * q; //s'ha de normalitzar???
 
         //q = q + time;
 
@@ -102,5 +102,11 @@ public class myRigidbody : MonoBehaviour {
     Quaternion vec3ToQuat(Vector3 vector)
     {
         return new Quaternion(vector.x, vector.y, vector.z, 0);
+    }
+
+    Quaternion normalizeQuat(Quaternion quat)
+    {
+        float sqrtSum = Mathf.Sqrt(quat.w * quat.w + quat.x * quat.x + quat.y * quat.y + quat.z * quat.z);
+        return new Quaternion(quat.x/sqrtSum, quat.y/sqrtSum, quat.z/sqrtSum, quat.w/sqrtSum);
     }
 }

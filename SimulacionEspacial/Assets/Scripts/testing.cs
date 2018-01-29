@@ -51,12 +51,16 @@ public class testing : UnityEngine.MonoBehaviour
         Matrix3 mat3 = new Matrix3();
         mat3.matrix = new float[,] { { 1, 2, 3 }, { 4, 5, 6 }, { 7, -8, -9 } };
         mat3.print();
-
-        myVector3.unityVec3ToMyVec3(mat3 * new myVector3(88, 2, 9)).printValues();//------ POSAR BE I MIRAR QUE HI HA MALAMENT
+        //myVector3.unityVec3ToMyVec3(mat3 * new myVector3(88, 2, 9)).printValues();
         //(mat3 * mat3.getTransposed()).print();
-        print(mat3.determinant() == -42 ? "Determinant Mat3x3 correcte": "Determinant Mat3x3 incorrecte");
+        print(mat3.determinant() == -42 ? "Determinant Mat3x3 correcte" : "Determinant Mat3x3 incorrecte");
 
-        
+        //Test inversa i cofactors ---- Funciona bé
+        //Matrix3 mat33 = new Matrix3();
+        //mat33.matrix = new float[,] { { -1, -2, 2 }, { 2, 1, 1 }, { 3, 4, 5 } };
+        //mat33.cofactorMat().print();
+        //mat33.getInverse().print();
+
 
         //Testing del Matrix4
         Matrix4 mat = new Matrix4();

@@ -26,10 +26,10 @@ namespace myClasses
         public MyQuaternion(float angle, myVector3 axis)
         {
             axis.normalize();
-            x = axis.x * UnityEngine.Mathf.Sin(angle / 2);
-            y = axis.y * UnityEngine.Mathf.Sin(angle / 2);
-            z = axis.z * UnityEngine.Mathf.Sin(angle / 2);
-            w = UnityEngine.Mathf.Cos(angle / 2);
+            x = axis.x * UnityEngine.Mathf.Sin(angle / 2.0f);
+            y = axis.y * UnityEngine.Mathf.Sin(angle / 2.0f);
+            z = axis.z * UnityEngine.Mathf.Sin(angle / 2.0f);
+            w = UnityEngine.Mathf.Cos(angle / 2.0f);
         }
 
         //Inversa = quaternió normalitzat i trasposat
@@ -45,12 +45,12 @@ namespace myClasses
         public AxisAngle ConvertToAxisAngle()
         {
             AxisAngle result;
-            result.angle = 2 * UnityEngine.Mathf.Acos(w);
+            result.angle = 2.0f * UnityEngine.Mathf.Acos(w);
 
             result.axis     = new myVector3();
-            result.axis.x   = x / UnityEngine.Mathf.Sqrt(1 - w * w);
-            result.axis.y   = y / UnityEngine.Mathf.Sqrt(1 - w * w);
-            result.axis.z   = z / UnityEngine.Mathf.Sqrt(1 - w * w);
+            result.axis.x   = x / UnityEngine.Mathf.Sqrt(1.0f - w * w);
+            result.axis.y   = y / UnityEngine.Mathf.Sqrt(1.0f - w * w);
+            result.axis.z   = z / UnityEngine.Mathf.Sqrt(1.0f - w * w);
 
             return result;
         }
@@ -102,6 +102,10 @@ namespace myClasses
                                                    q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z
                                                    );
         }
+
+        //TODO: QUATERNION * FLOAT
+
+        //TODO: QUATERNION + operator
 
         public static bool operator ==(MyQuaternion a, MyQuaternion b)  //seria més correcte posar-ho en un equals...
         {
