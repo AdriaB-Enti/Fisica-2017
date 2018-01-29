@@ -7,6 +7,8 @@ namespace myClasses
     {
         public float[,] matrix;
 
+        public static bool error = false;
+
         //Inicialitza a 0
         public Matrix3()
         {
@@ -25,26 +27,29 @@ namespace myClasses
         public Matrix3(UnityEngine.Quaternion quat) //METODE JESUS - Si no va-> provar amb els signes com a internet
         {
             matrix = new float[,] { 
-                { 1-2*quat.y*quat.y - 2*quat.z*quat.z,  2*quat.x*quat.y + 2*quat.w*quat.z,        2*quat.x*quat.z - 2*quat.w*quat.y }, 
-                { 2*quat.x*quat.y - 2*quat.w*quat.z,  1 - 2*quat.x*quat.x - 2*quat.z*quat.z,    2*quat.y*quat.z + 2*quat.w*quat.x }, 
-                { 2*quat.x*quat.z + 2*quat.w*quat.y,  2*quat.y*quat.z - 2*quat.w*quat.x,        1 - 2*quat.x*quat.x -2*quat.y*quat.y } };
+                { 1.0f-2*quat.y*quat.y - 2*quat.z*quat.z,  2*quat.x*quat.y + 2*quat.w*quat.z,        2*quat.x*quat.z - 2*quat.w*quat.y }, 
+                { 2*quat.x*quat.y - 2*quat.w*quat.z,  1.0f - 2*quat.x*quat.x - 2*quat.z*quat.z,    2*quat.y*quat.z + 2*quat.w*quat.x }, 
+                { 2*quat.x*quat.z + 2*quat.w*quat.y,  2*quat.y*quat.z - 2*quat.w*quat.x,        1.0f - 2*quat.x*quat.x -2*quat.y*quat.y } };
         }
 
         public static Matrix3 iBodyBox(float mass, float height, float width, float depth)
         {
             Matrix3 iBody = new Matrix3();
             iBody.matrix = new float[,] { 
-                { (1/12)*mass*(height*height + depth*depth),  0,  0 }, 
-                { 0,  (1/12)*mass*(width*width + depth*depth),  0 }, 
-                { 0,  0,  (1/12)*mass*(width*width + height*height) } };
+                { (1.0f/12.0f)*mass*(height*height + depth*depth),  0,  0 }, 
+                { 0,  (1.0f/12.0f)*mass*(width*width + depth*depth),  0 }, 
+                { 0,  0,  (1.0f/12.0f)*mass*(width*width + height*height) } };
             return iBody;
         }
 
         public Matrix3 getInverse()
         {
             float det = determinant();
-
-            return 1/det * (cofactorMat().getTransposed());
+            if (det == 0)
+            {
+                error = true;
+            }
+            return 1.0f/det * (cofactorMat().getTransposed());
         }
         
         //switches rows and columns
@@ -72,7 +77,7 @@ namespace myClasses
                 for (int c = 0; c < 3; c++)
                 {
                     cofactor.matrix[r, c] = sign * detMat2WithoutRowCol(r, c);
-                    sign *= -1;
+                    sign *= -1.0f;
                 }
             }
             return cofactor;
