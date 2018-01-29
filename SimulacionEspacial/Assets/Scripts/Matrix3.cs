@@ -24,7 +24,7 @@ namespace myClasses
             //TODO----------------------------------------------------------------------
         }
 
-        public Matrix3(UnityEngine.Quaternion quat) //METODE JESUS - Si no va-> provar amb els signes com a internet
+        public Matrix3(UnityEngine.Quaternion quat)
         {
             matrix = new float[,] { 
                 { 1.0f-2*quat.y*quat.y - 2*quat.z*quat.z,  2*quat.x*quat.y + 2*quat.w*quat.z,        2*quat.x*quat.z - 2*quat.w*quat.y }, 

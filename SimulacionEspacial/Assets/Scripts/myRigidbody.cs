@@ -90,9 +90,12 @@ public class myRigidbody : MonoBehaviour {
 
         q = sumQuat(q, time);
 
-        //normalizeQuat(q);
+        normalizeQuat(q);
 
-        transform.rotation = q;
+        transform.rotation = new Quaternion(q.x,q.y,q.z,q.w);
+        //transform.rotation = q;
+
+        
         //transformationT = q.toMat4();
 
         //translate

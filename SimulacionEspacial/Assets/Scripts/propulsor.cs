@@ -12,10 +12,10 @@ public class propulsor : MonoBehaviour {
 	
 	void Update () {
         //Sumar forces
-        myrigidBody.totalForce += forceMagnitude * transform.forward;
+        myrigidBody.totalForce += forceMagnitude * transform.forward;   //CANVIAR.....................
 
         //Sumar torque
-        Vector3 r = myrigidBody.getCenterOfMass() - transform.position;
+        Vector3 r = transform.position - myrigidBody.getCenterOfMass();
 
         myrigidBody.totalTorque += Vector3.Cross(r, forceMagnitude * transform.forward);
 	}
