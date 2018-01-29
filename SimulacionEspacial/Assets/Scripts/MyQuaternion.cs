@@ -48,14 +48,11 @@ namespace myClasses
             return new MyQuaternion(-q.x/sum, -q.y/sum, -q.z/sum, q.w / sum);
         }
         
-        /*
-         * TODO: TENIR EN COMPTE ALFA=0 (INFINIT?) I ALFA=180 
-         */
         public AxisAngle ConvertToAxisAngle()
         {
             AxisAngle result;
             result.angle = 2.0f * UnityEngine.Mathf.Acos(w);
-
+            //comprovar angle?
             result.axis     = new myVector3();
             result.axis.x   = x / UnityEngine.Mathf.Sqrt(1.0f - w * w);
             result.axis.y   = y / UnityEngine.Mathf.Sqrt(1.0f - w * w);

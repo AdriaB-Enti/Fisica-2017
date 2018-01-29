@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//Code By Adrià Biarnés - 3B (ENTI)
+using UnityEngine;
 using System.Collections;
 
 namespace myClasses
@@ -27,7 +28,7 @@ namespace myClasses
                 { 2*quat.x*quat.z + 2*quat.w*quat.y,  2*quat.y*quat.z - 2*quat.w*quat.x,        1.0f - 2*quat.x*quat.x -2*quat.y*quat.y } };
         }
 
-        public Matrix3(UnityEngine.Quaternion quat)//--- treure?
+        public Matrix3(UnityEngine.Quaternion quat)
         {
             matrix = new float[,] { 
                 { 1.0f-2*quat.y*quat.y - 2*quat.z*quat.z,  2*quat.x*quat.y + 2*quat.w*quat.z,        2*quat.x*quat.z - 2*quat.w*quat.y }, 
@@ -147,7 +148,7 @@ namespace myClasses
         }
 
         //Matrix3 * Vector3
-        public static myVector3 operator *(Matrix3 m1, myVector3 vector3) //-------------------- abans retornava Vector3----------------
+        public static myVector3 operator *(Matrix3 m1, myVector3 vector3)
         {
             myVector3 result = new myVector3(0);
 
@@ -159,7 +160,7 @@ namespace myClasses
                 }
             }
 
-            return result;//----------------------------------------------------------
+            return result;
         }
 
         public float determinant()

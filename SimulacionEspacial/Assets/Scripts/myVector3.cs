@@ -60,7 +60,6 @@ namespace myClasses
         {
             return new UnityEngine.Vector3(x,y,z);
         }
-        //fer un clampWithRange?
 
         //Si el index és mes gran que 1 o més petit que 0 -> sempre tornara z
         public float getByIndex(int index)
@@ -99,6 +98,7 @@ namespace myClasses
         {
             return new myVector3(unityVec.x, unityVec.y, unityVec.z);
         }
+
         //Operators
         public static myVector3 operator +(myVector3 a, myVector3 b)
         {
@@ -123,11 +123,11 @@ namespace myClasses
 
         public static bool operator ==(myVector3 a, myVector3 b)    //TODO: potser seria més correcte fer un .Equals()...
         {
-            return a.x == b.x && a.y == b.y && a.z == b.z;      //han de ser tots iguals
+            return a.x == b.x && a.y == b.y && a.z == b.z;          //han de ser tots iguals
         }
         public static bool operator !=(myVector3 a, myVector3 b)
         {
-            return a.x != b.x || a.y != b.y || a.z != b.z;      //només que hi hagi un de diferent, els vectors seran diferents
+            return a.x != b.x || a.y != b.y || a.z != b.z;          //només que hi hagi un de diferent, els vectors seran diferents
         }
     }
 

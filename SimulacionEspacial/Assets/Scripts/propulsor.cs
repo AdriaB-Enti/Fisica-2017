@@ -16,19 +16,12 @@ public class propulsor : MonoBehaviour
     void Update()
     {
         forward = myVector3.unityToMyVec(transform.forward);    //CANVIAR..............------------------------.......
-        //Sumar forces
-        //myrigidBody.totalForce += forceMagnitude * transform.forward;   //CANVIAR..............------------------------.......
-        //Sumar torque
-        //Vector3 r = transform.position - myrigidBody.getCenterOfMass();
-        //myrigidBody.totalTorque += Vector3.Cross(r, forceMagnitude * transform.forward);
 
-
-        //Haig d'esbrinar com pillar el forward del transform....?--------------------------------------------
         //Sumar forces
-        myrigidBody.mytotalForce += forceMagnitude * forward;
+        myrigidBody.totalForce += forceMagnitude * forward;
         //Sumar torque
         myVector3 r = myVector3.unityToMyVec(transform.position) - myrigidBody.getCenterOfMass();
-        myrigidBody.mytotalTorque += myVector3.Cross(r, forceMagnitude * forward);
+        myrigidBody.totalTorque += myVector3.Cross(r, forceMagnitude * forward);
         
     }
 }

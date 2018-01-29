@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿//Code By Adrià Biarnés - 3B (ENTI)
+using UnityEngine;
 using System.Collections;
 
 namespace myClasses
